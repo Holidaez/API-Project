@@ -2,6 +2,7 @@
 # `<name of application here>`
 
 ## Database Schema Design
+![image](https://user-images.githubusercontent.com/110130363/196804058-8b4b8bf1-5119-43c9-bbfc-f806ebbded40.png)
 
 `<insert database schema design here>`
 
