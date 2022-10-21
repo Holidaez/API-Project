@@ -9,52 +9,28 @@ router.use('/api', apiRouter);
 //   res.cookie('XSRF-TOKEN', req.csrfToken());
 //   res.send('Hello World!');
 // });
-router.post('/test', function(req, res) {
-    res.json({ requestBody: req.body });
+// router.get("/api/csrf/restore", (req, res) => {
+//   const csrfToken = req.csrfToken();
+//   res.cookie("XSRF-TOKEN", csrfToken);
+//   res.status(200).json({
+//     'XSRF-Token': csrfToken
+//   });
+// });
+//!End Phase 0
+//TODO Start Phase 1
+router.post('/test', function (req, res) {
+  res.json({ requestBody: req.body });
+});
+//TODO ENd Phase 1
+
+router.get("/csrf/restore", (req, res) => {
+  const csrfToken = req.csrfToken();
+  res.cookie("XSRF-TOKEN", csrfToken);
+  res.status(200).json({
+    'XSRF-Token': csrfToken
   });
-
-  router.get("/csrf/restore", (req, res) => {
-      const csrfToken = req.csrfToken();
-      res.cookie("XSRF-TOKEN", csrfToken);
-      res.status(200).json({
-          'XSRF-Token': csrfToken
-        });
-    });
-
-
-    app.use((_req, _res, next) => {
-        const err = new Error("The requested resource couldn't be found.");
-        err.title = "Resource Not Found";
-        err.errors = ["The requested resource couldn't be found."];
-        err.status = 404;
-        next(err);
-      });
-
-
-      const { ValidationError } = require('sequelize');
-
-// ...
-
-// Process sequelize errors
-app.use((err, _req, _res, next) => {
-  // check if error is a Sequelize error:
-  if (err instanceof ValidationError) {
-    err.errors = err.errors.map((e) => e.message);
-    err.title = 'Validation error';
-  }
-  next(err);
 });
 
 
 
-app.use((err, _req, res, _next) => {
-    res.status(err.status || 500);
-    console.error(err);
-    res.json({
-      title: err.title || 'Server Error',
-      message: err.message,
-      errors: err.errors,
-      stack: isProduction ? null : err.stack
-    });
-  });
-    module.exports = router;
+module.exports = router;
