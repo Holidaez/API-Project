@@ -89,13 +89,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    const bcrypt = require('bcryptjs');
-    validatePassword(password) {
-      return bcrypt.compareSync(password, this.hashedPassword.toString());
-    },
-    static getCurrentUserById(id) {
-      return User.scope("currentUser").findByPk(id);
-    }
+
   );
   return User;
 };
