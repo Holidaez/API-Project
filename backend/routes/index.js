@@ -23,7 +23,7 @@ router.post('/test', function (req, res) {
 });
 //TODO ENd Phase 1
 
-router.get("/csrf/restore", (req, res) => {
+router.get("/api/csrf/restore", (req, res) => {
   const csrfToken = req.csrfToken();
   res.cookie("XSRF-TOKEN", csrfToken);
   res.status(200).json({
