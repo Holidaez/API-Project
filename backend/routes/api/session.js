@@ -28,6 +28,14 @@ router.post(
     }
   );
 
+  //Removes the token cookie
+  router.delete(
+    '/',
+    (_req, res) => {
+      res.clearCookie('token');
+      return res.json({ message: 'success' });
+    }
+  );
 
 
 
