@@ -26,9 +26,9 @@ router.get(
     (req, res) => {
       const { user } = req;
       if (user) {
-        return res.json({
-          user: user.toSafeObject()
-        });
+        return res.json(
+          user.toSafeObject()
+        );
       } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
@@ -54,7 +54,6 @@ router.post(
     }
 
     await setTokenCookie(res, user);
-    console.log(user)
     return res.json({
       id:user.id,
       firstName:user.firstName,
