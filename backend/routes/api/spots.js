@@ -31,6 +31,18 @@ router.get('/current', async (req, res) => {
         let spots = await Spot.findAll({
             where: ownerId = user.id
         })
+        let reviews = await Review.findAll({
+            where: { spotId: spots[0].id },
+            attributes: ["stars"],
+            raw: true
+        })
+
+        let sum = 0
+        for (let review of reviews) {
+            sum += review.stars
+        }
+        avg = sum / reviews.length
+        spots[0].dataValues.avgRating = avg.toFixed(1)
         res.json({
             Spots: spots
         })
@@ -45,6 +57,21 @@ router.get('/current', async (req, res) => {
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params
     let spots = await Spot.findByPk(spotId, {})
+    let reviews = await Review.findAll({
+        where: { spotId: spots.id },
+        attributes: ["stars"],
+        raw: true
+    })
+
+    let sum = 0
+    let reviewCount = 0
+    for (let review of reviews) {
+        reviewCount++
+        sum += review.stars
+    }
+    avg = sum / reviews.length
+    spots.dataValues.numReviews = reviewCount
+    spots.dataValues.avgRating = avg.toFixed(1)
     if (spots === null) {
         return res.status(404).json({
             message: "Spot couldn't be found",
