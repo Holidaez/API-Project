@@ -48,7 +48,7 @@ router.post(
       });
     }catch (error){
       res.status(403).json({
-        message:'user already exists',
+        // message:'user already exists',
         statusCode:403,
         errors:error.errors[0].message
       })
