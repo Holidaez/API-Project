@@ -29,7 +29,10 @@ router.get(
         return res.json({
           user: user.toSafeObject()
         });
-      } else return res.json({});
+      } else return res.json({
+        "message": "Authentication required",
+        "statusCode": 401
+      });
     }
   );
   //TODO END SESSION RESTORATION
@@ -57,7 +60,7 @@ router.post(
       firstName:user.firstName,
       lastName:user.lastName,
       email:user.email,
-      username:user.username
+      username:user.username,
     });
   }
 );
