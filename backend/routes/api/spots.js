@@ -1,5 +1,6 @@
 const express = require('express');
-const { User, Spot, Review } = require('../../db/models');
+const { User, Spot, Review, SpotImage } = require('../../db/models');
+const spot = require('../../db/models/spot');
 const router = express.Router();
 //Returns all spots
 router.get('/', async (req, res) => {
@@ -57,6 +58,12 @@ router.get('/current', async (req, res) => {
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params
     let spots = await Spot.findByPk(spotId, {})
+    if (spots === null) {
+        return res.status(404).json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
     let reviews = await Review.findAll({
         where: { spotId: spots.id },
         attributes: ["stars"],
@@ -72,12 +79,6 @@ router.get('/:spotId', async (req, res) => {
     avg = sum / reviews.length
     spots.dataValues.numReviews = reviewCount
     spots.dataValues.avgRating = avg.toFixed(1)
-    if (spots === null) {
-        return res.status(404).json({
-            message: "Spot couldn't be found",
-            statusCode: 404
-        })
-    }
     res.json(
         spots
     )
@@ -171,9 +172,21 @@ router.post('/', async (req, res) => {
 
 router.post('/:spotId/images', async (req, res) => {
     const { user } = req
-    const { url, preview } = req.params
-    if (user) {
-
+    const { url, preview } = req.body
+    const {spotId} = req.params
+    console.log(user)
+    if (user && await Spot.findByPk(spotId)) {
+        let spotImage = await SpotImage.create({
+            spotId:parseInt(spotId),
+            url:url,
+            preview:preview
+    })
+        res.json(
+            {
+            id:spotImage.id,
+            url:spotImage.url,
+            preview:spotImage.preview
+        })
     } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
