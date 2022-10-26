@@ -52,42 +52,72 @@ router.get('/current', async (req, res) => {
         res.json({
             Reviews: reviews
         })
-    }else return res.status(401).json({
+    } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
     });
 })
 
-router.post('/:reviewId/images', async (req, res)=>{
-    const {user} = req
-    const {reviewId} = req.params
+router.post('/:reviewId/images', async (req, res) => {
+    const { user } = req
+    const { reviewId } = req.params
     const { url } = req.body
-    if(user){
+    if (user) {
         let reviews = await Review.findByPk(reviewId)
-        if(reviews !== null){
+        if (reviews !== null) {
             console.log(reviews.userId)
-            if(reviews.userId === user.id){
+            if (reviews.userId === user.id) {
                 let reviewImage = await ReviewImage.create({
-                    reviewId:parseInt(reviewId),
-                    url:url
+                    reviewId: parseInt(reviewId),
+                    url: url
                 })
                 reviewImage.dataValues.ownerId = parseInt(user.id)
                 res.json({
-                    id:reviewImage.id,
-                    url:reviewImage.url
+                    id: reviewImage.id,
+                    url: reviewImage.url
                 })
             }
-        }else return res.status(404).json({
+        } else return res.status(404).json({
             message: "Review couldn't be found",
             statusCode: 404
         })
-    }else return res.status(401).json({
+    } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
     });
 })
 
+router.put('/:reviewId', async (req, res) => {
+    const { user } = req
+    const { reviewId } = req.params
+    const { review, stars } = req.body
+    if (user) {
+        const reviews = await Review.findByPk(reviewId, {})
+        if (reviews !== null) {
+        if (reviews.userId !== user.id) {
+            return res.status(401).json({
+                "message": "Authentication required",
+                "statusCode": 401
+            });
 
+        }
+            if (review !== null) {
+                reviews.review = review
+            }
+            if (stars !== null) {
+                reviews.stars = stars
+            }
+            await reviews.save()
+            res.json(reviews)
+        } else return res.status(404).json({
+            message: "Review couldn't be found",
+            statusCode: 404
+        })
+    } else return res.status(401).json({
+        "message": "Authentication required",
+        "statusCode": 401
+    });
+})
 
 
 module.exports = router;
