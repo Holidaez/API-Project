@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Spot, Review, SpotImage, ReviewImage } = require('../../db/models');
+const { User, Spot, Review, SpotImage, ReviewImage, Booking } = require('../../db/models');
 const spot = require('../../db/models/spot');
 const router = express.Router();
 //Returns all spots //! Fix seed data so that they have previewImages
@@ -394,10 +394,73 @@ router.post('/:spotId/reviews', async (req, res) => {
         "statusCode": 401
     });
 })
+//! Bookings by Spot Id
+router.post('/:spotId/bookings', async (req,res)=>{
+    const {user} = req
+    const {spotId} = req.params
+    const {startDate, endDate} = req.body
+    if(user){
+        let spots = await Spot.findByPk(spotId,{})
+        if (spots === null){
+            return res.status(404).json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+        let bookings = await Booking.findAll({
+            where: {spotId: spotId}
+        })
+        if(user.id !== spots[0].id){
+            return res.json({
+                Bookings:[{
+                    spotId:bookings.spotId,
+                    startDate:bookings.startDate,
+                    endDate:bookings.endDate
+                }]
+            })
+        }
+        for(let booking of bookings){
 
-
-
-
+            let users = await User.findAll({
+                where: {id: booking.dataValues.userId},
+                attributes: ["id","firstName","lastName"],
+                raw:true
+            })
+            booking.dataValues.User = users[0]
+        }
+        res.json({
+            bookings
+        })
+    }
+})
+//! Create a booking from a Spot based on Spot Id
+router.post('/:spotId/bookings', async (req, res)=>{
+    const {user} = req
+    const {spotId} = req.params
+    const {startDate, endDate} = req.body
+    if (user){
+        let spots = await Spot.findByPk(spotId,{})
+        if(spots === null){
+            return res.status(404).json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+        if(spots.ownerId === user.id){
+            return res.status(401).json({
+                message:"You can not book your own Spot",
+                statusCode:403
+            })
+        }
+        let newBooking = await Booking.create({
+            spotId:spotId,
+            userId:user.id,
+            startDate,
+            endDate
+        })
+        res.status(200).json(newBooking)
+    }
+})
 //test
 
 

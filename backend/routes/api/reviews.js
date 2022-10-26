@@ -35,9 +35,9 @@ router.get('/current', async (req, res) => {
                     spot.previewImage = previewImages[0].url
 
                 }
-                console.log(spot)
+
             }
-            console.log(review.id)
+            
             let reviewImages = await ReviewImage.findAll({
                 where: { reviewId: review.id },
                 attributes: ["id", "url"],
