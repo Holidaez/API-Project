@@ -35,15 +35,15 @@ router.get('/', async (req, res) => {
         Spots: spots
     })
 })
-//Returns the Spots for whoever is logged in//!Needs to be fixed
 router.get('/current', async (req, res) => {
     const { user } = req;
     if (user) {
         let spots = await Spot.findAll({
-            where: ownerId = user.id
+            where: {ownerId:user.id}
         })
+        for (let spot of spots){
         let reviews = await Review.findAll({
-            where: { spotId: spots[0].id },
+            where: { spotId: spot.id },
             attributes: ["stars"],
             raw: true
         })
@@ -53,23 +53,24 @@ router.get('/current', async (req, res) => {
             sum += review.stars
         }
         avg = sum / reviews.length
-        spots[0].dataValues.avgRating = avg.toFixed(1)
+        spot.dataValues.avgRating = avg.toFixed(1)
         let previewImages = await SpotImage.findAll({
-            where: { spotId: spots[0].ownerId },
+            where: { spotId: spot.ownerId },
             attributes: ["url"],
             raw: true
         })
-        spots[0].dataValues.previewImage = previewImages[0].url
+        console.log(previewImages)
+        spot.dataValues.previewImage = previewImages[0].url
         res.json({
             Spots: spot
         })
+    }
     } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
     });
-    }
-)
 
+})
 //! Get details of a Spot from an Id
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params
