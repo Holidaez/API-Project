@@ -8,6 +8,14 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const validateSignup = [
+    check('firstName')
+    .exists({checkFalsy: true})
+    .isLength({min:1})
+    .withMessage('First Name is required'),
+    check('lastName')
+    .exists({checkFalsy:true})
+    .isLength({min:1})
+    .withMessage('Last Name is required'),
     check('email')
       .exists({ checkFalsy: true })
       .isEmail()
@@ -31,14 +39,25 @@ router.post(
   '/',
   validateSignup,
   async (req, res) => {
-    const { email, password, username } = req.body;
-    const user = await User.signup({ email, username, password });
-
-    await setTokenCookie(res, user);
-
-    return res.json({
-      user,
-    });
+    const { firstName, lastName, email, password, username } = req.body;
+    try{
+      const user = await User.signup({ firstName, lastName, email, username, password });
+      await setTokenCookie(res, user);
+      return res.json({
+        id:user.id,
+        firstName:user.firstName,
+        lastName:user.lastName,
+        email:user.email,
+        username:user.username,
+        token:""
+      });
+    }catch (error){
+      res.status(403).json({
+        // message:'user already exists',
+        statusCode:403,
+        errors:error.errors[0].message
+      })
+    }
   }
 );
 module.exports = router;
