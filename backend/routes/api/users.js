@@ -48,8 +48,7 @@ router.post(
         firstName:user.firstName,
         lastName:user.lastName,
         email:user.email,
-        username:user.username,
-        token:""
+        username:user.username
       });
     }catch (error){
       res.status(403).json({

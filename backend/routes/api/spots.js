@@ -2,7 +2,7 @@ const express = require('express');
 const { User, Spot, Review, SpotImage, ReviewImage } = require('../../db/models');
 const spot = require('../../db/models/spot');
 const router = express.Router();
-//Returns all spots
+//Returns all spots //! Fix seed data so that they have previewImages
 router.get('/', async (req, res) => {
     let spots = await Spot.findAll()
     let avg;
@@ -27,6 +27,8 @@ router.get('/', async (req, res) => {
         })
         if (previewImages.length) {
             spot.dataValues.previewImage = previewImages[0].url
+        }else{
+            spot.dataValues.previewImage = "image url"
         }
     }
     res.json({
@@ -38,10 +40,11 @@ router.get('/current', async (req, res) => {
     const { user } = req;
     if (user) {
         let spots = await Spot.findAll({
-            where: ownerId = user.id
+            where: {ownerId:user.id}
         })
+        for (let spot of spots){
         let reviews = await Review.findAll({
-            where: { spotId: spots[0].id },
+            where: { spotId: spot.id },
             attributes: ["stars"],
             raw: true
         })
@@ -51,16 +54,18 @@ router.get('/current', async (req, res) => {
             sum += review.stars
         }
         avg = sum / reviews.length
-        spots[0].dataValues.avgRating = avg.toFixed(1)
+        spot.dataValues.avgRating = avg.toFixed(1)
         let previewImages = await SpotImage.findAll({
-            where: { spotId: spots[0].ownerId },
+            where: { spotId: spot.ownerId },
             attributes: ["url"],
             raw: true
         })
-        spots[0].dataValues.previewImage = previewImages[0].url
+        console.log(previewImages)
+        spot.dataValues.previewImage = previewImages[0].url
         res.json({
-            Spots: spots
+            Spots: spot
         })
+    }
     } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
@@ -92,7 +97,7 @@ router.get('/:spotId', async (req, res) => {
     }
     avg = sum / reviews.length
     spots.dataValues.numReviews = reviewCount
-    spots.dataValues.avgRating = avg.toFixed(1)
+    spots.dataValues.avgStarRating = avg.toFixed(1)
     //Gets the Preview images for a certain spot
     let previewImages = await SpotImage.findAll({
         where: { spotId: spots.id },
@@ -109,7 +114,7 @@ router.get('/:spotId', async (req, res) => {
         }
     }
     //Adds Datavalue previewImage to Spots
-    spots.dataValues.previewImage = previewImages
+    spots.dataValues.SpotImages = previewImages
     let owner = await User.findAll({
         where: { id: spots.ownerId },
         attributes: ["id", "firstName", "lastName"]
@@ -335,7 +340,7 @@ router.get('/:spotId/reviews', async (req, res) => {
         review.dataValues.ReviewImages = reviewImages
     }
     res.json({
-        Reviews: [reviews]
+        Reviews: reviews
     })
 })
 //! Create a review for A Spot based on Spot Id
@@ -346,7 +351,7 @@ router.post('/:spotId/reviews', async (req, res) => {
     if (user) {
         let spots = await Spot.findByPk(spotId, {})
         if (spots === null) {
-            res.status(404).json({
+           return res.status(404).json({
                 message: "Spot couldn't be found",
                 statusCode: 404
             })
