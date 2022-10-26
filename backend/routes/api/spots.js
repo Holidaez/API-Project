@@ -287,4 +287,117 @@ router.put('/:spotId', async (req, res) => {
         "statusCode": 401
     });
 })
+router.delete('/:spotId', async (req, res) => {
+    const { user } = req
+    const { spotId } = req.params
+    if (user) {
+        let spots = await Spot.findByPk(spotId)
+        if (spots !== null) {
+            if (spots.ownerId === user.id) {
+                await spots.destroy()
+                res.json({
+                    message: "Successfully deleted",
+                    statusCode: 200
+                })
+            }
+        } else return res.status(404).json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    } else return res.status(401).json({
+        "message": "Authentication required",
+        "statusCode": 401
+    });
+})
+
+//! Get all reviews by a Spot's id
+router.get('/:spotId/reviews', async (req, res) => {
+    const { spotId } = req.params
+    let spots = await Spot.findByPk(spotId, {})
+    if (spots === null) {
+        res.status(404).json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    let reviews = await Review.findAll({
+        where: { spotId: spotId }
+    })
+    for (let review of reviews) {
+        let users = await User.findAll({
+            where: { id: review.dataValues.userId },
+            attributes: ["id", "firstName", "lastName"],
+            raw: true
+        })
+        let reviewImages = await ReviewImage.findAll({
+            where: { reviewId: review.dataValues.id },
+            attributes: ["id", "url"],
+            raw: true
+        })
+        //! IMPORTS into the object
+        review.dataValues.User = users[0]
+        review.dataValues.ReviewImages = reviewImages
+    }
+    res.json({
+        Reviews: reviews
+    })
+})
+//! Create a review for A Spot based on Spot Id
+router.post('/:spotId/reviews', async (req, res) => {
+    const { user } = req
+    const { spotId } = req.params
+    const { review, stars } = req.body
+    if (user) {
+        let spots = await Spot.findByPk(spotId, {})
+        if (spots === null) {
+           return res.status(404).json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+        let reviews = await Review.findAll({
+        })
+        for (let reviewz of reviews) {
+            if (reviewz.dataValues.spotId === parseInt(spotId) && reviewz.userId === user.id) {
+                console.log("entered")
+                return res.status(403).json({
+                    message: "User already has a review for this spot",
+                    statusCode: 403
+                })
+
+            }
+        }
+        if (!review) {
+            res.status(400).json({
+                message: "Validation Error",
+                statusCode: 400,
+                errors: "Review text is required"
+            })
+        }
+        if (!stars) {
+            res.status(400).json({
+                message: "Validation Error",
+                statusCode: 400,
+                errors: "Stars must be an integer from 1 to 5"
+            })
+        }
+        let newReview = await Review.create({
+            userId: user.id,
+            spotId: parseInt(spotId),
+            review,
+            stars
+        })
+        res.status(201).json(newReview)
+    } else return res.status(401).json({
+        "message": "Authentication required",
+        "statusCode": 401
+    });
+})
+
+
+
+
+//test
+
+
 module.exports = router;
