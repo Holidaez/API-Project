@@ -94,13 +94,13 @@ router.put('/:reviewId', async (req, res) => {
     if (user) {
         const reviews = await Review.findByPk(reviewId, {})
         if (reviews !== null) {
-        if (reviews.userId !== user.id) {
-            return res.status(401).json({
-                "message": "Authentication required",
-                "statusCode": 401
-            });
+            if (reviews.userId !== user.id) {
+                return res.status(401).json({
+                    "message": "Authentication required",
+                    "statusCode": 401
+                });
 
-        }
+            }
             if (review !== null) {
                 reviews.review = review
             }
@@ -119,5 +119,32 @@ router.put('/:reviewId', async (req, res) => {
     });
 })
 
+//! Delete a review
+router.delete('/:reviewId', async (req, res) => {
+    const { user } = req
+    const { reviewId } = req.params
+    if (user) {
+        const reviews = await Review.findByPk(reviewId, {})
+        if (reviews !== null) {
+            if (reviews.userId !== user.id) {
+                return res.status(401).json({
+                    "message": "Authentication required",
+                    "statusCode": 401
+                });
+            }
+            await reviews.destroy()
+            res.json({
+                message: "Successfully deleted",
+                statusCode:200
+            })
+        }else return res.status(404).json({
+            message: "Review couldn't be found",
+            statusCode: 404
+        })
+    } else return res.status(401).json({
+        "message": "Authentication required",
+        "statusCode": 404
+    })
+})
 
 module.exports = router;
