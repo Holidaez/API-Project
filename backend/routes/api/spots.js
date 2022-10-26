@@ -407,20 +407,13 @@ router.get('/:spotId/bookings', async (req, res) => {
             })
         }
         let bookings = await Booking.findAll({
-            where: { spotId: spotId }
+            where: { spotId: spotId },
+            attributes:["spotId","startDate","endDate"]
         })
-        for (let booking of bookings) {
-
             if (user.id !== spots.id) {
                 return res.json({
-                    Bookings: [{
-                        spotId: booking.spotId,
-                        startDate: booking.startDate,
-                        endDate: booking.endDate
-                    }]
-                })
+                    Bookings:bookings})
             }
-        }
         for (let booking of bookings) {
 
             let users = await User.findAll({
