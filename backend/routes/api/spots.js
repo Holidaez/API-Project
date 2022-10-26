@@ -95,7 +95,7 @@ router.get('/:spotId', async (req, res) => {
     spots.dataValues.avgRating = avg.toFixed(1)
     //Gets the Preview images for a certain spot
     let previewImages = await SpotImage.findAll({
-        where: {spotId: spots.ownerId},
+        where: {spotId: spots.id},
         attributes:["id","url","preview"],
         raw:true
     })
