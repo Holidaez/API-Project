@@ -1,9 +1,8 @@
 const express = require('express');
-const { READUNCOMMITTED } = require('sequelize/types/table-hints');
 const { User, Spot, Review, SpotImage } = require('../../db/models');
 const spot = require('../../db/models/spot');
 const router = express.Router();
-//Returns all spots
+//Returns all spots //! Fix seed data so that they have previewImages
 router.get('/', async (req, res) => {
     let spots = await Spot.findAll()
     let avg;
@@ -28,48 +27,48 @@ router.get('/', async (req, res) => {
         })
         if (previewImages.length) {
             spot.dataValues.previewImage = previewImages[0].url
+        } else {
+            spot.dataValues.previewImage = "image url"
         }
     }
     res.json({
         Spots: spots
     })
 })
-//Returns the Spots for whoever is logged in
+//Returns the Spots for whoever is logged in//!Needs to be fixed
 router.get('/current', async (req, res) => {
     const { user } = req;
     if (user) {
         let spots = await Spot.findAll({
-            where: { ownerId: user.id }
+            where: ownerId = user.id
         })
-        for (let spot of spots) {
-            let reviews = await Review.findAll({
-                where: { spotId: spot.id },
-                attributes: ["stars"],
-                raw: true
-            })
+        let reviews = await Review.findAll({
+            where: { spotId: spots[0].id },
+            attributes: ["stars"],
+            raw: true
+        })
 
-            let sum = 0
-            for (let review of reviews) {
-                sum += review.stars
-            }
-            avg = sum / reviews.length
-            spot.dataValues.avgRating = avg.toFixed(1)
-            let previewImages = await SpotImage.findAll({
-                where: { spotId: spot.ownerId },
-                attributes: ["url"],
-                raw: true
-            })
-            spot.dataValues.previewImage = previewImages[0].url
+        let sum = 0
+        for (let review of reviews) {
+            sum += review.stars
         }
+        avg = sum / reviews.length
+        spots[0].dataValues.avgRating = avg.toFixed(1)
+        let previewImages = await SpotImage.findAll({
+            where: { spotId: spots[0].ownerId },
+            attributes: ["url"],
+            raw: true
+        })
+        spots[0].dataValues.previewImage = previewImages[0].url
         res.json({
-            Spots: spots
+            Spots: spot
         })
     } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
     });
-
-})
+    }
+)
 
 //! Get details of a Spot from an Id
 router.get('/:spotId', async (req, res) => {
@@ -95,7 +94,7 @@ router.get('/:spotId', async (req, res) => {
     }
     avg = sum / reviews.length
     spots.dataValues.numReviews = reviewCount
-    spots.dataValues.avgRating = avg.toFixed(1)
+    spots.dataValues.avgStarRating = avg.toFixed(1)
     //Gets the Preview images for a certain spot
     let previewImages = await SpotImage.findAll({
         where: { spotId: spots.ownerId },
@@ -112,7 +111,7 @@ router.get('/:spotId', async (req, res) => {
         }
     }
     //Adds Datavalue previewImage to Spots
-    spots.dataValues.previewImage = previewImages
+    spots.dataValues.SpotImages = previewImages
     let owner = await User.findAll({
         where: { id: spots.ownerId },
         attributes: ["id", "firstName", "lastName"]
@@ -288,28 +287,4 @@ router.put('/:spotId', async (req, res) => {
         "statusCode": 401
     });
 })
-
-router.delete('/:spotId', async (req, res) => {
-    const { user } = req
-    const { spotId } = req.params
-    if (user) {
-        let spots = await Spot.findByPk(spotId)
-        if (spots !== null) {
-            if (spots.ownerId === user.id) {
-                await spots.destroy()
-                res.json({
-                    message:"Successfully deleted",
-                    statusCode:200
-                })
-            }
-        }else return res.status(404).json({
-            message: "Spot couldn't be found",
-            statusCode: 404
-        })
-    }else return res.status(401).json({
-        "message": "Authentication required",
-        "statusCode": 401
-    });
-})
-
 module.exports = router;
