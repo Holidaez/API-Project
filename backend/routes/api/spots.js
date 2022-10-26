@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Spot, Review, SpotImage } = require('../../db/models');
+const { User, Spot, Review, SpotImage, ReviewImage } = require('../../db/models');
 const spot = require('../../db/models/spot');
 const router = express.Router();
 //Returns all spots //! Fix seed data so that they have previewImages
