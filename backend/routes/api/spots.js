@@ -119,7 +119,7 @@ router.get('/:spotId', async (req, res) => {
         where: { id: spots.ownerId },
         attributes: ["id", "firstName", "lastName"]
     })
-    spots.dataValues.Owner = owner
+    spots.dataValues.Owner = owner[0]
     res.json(
         spots
     )
