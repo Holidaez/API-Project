@@ -285,4 +285,26 @@ router.put('/:spotId', async (req, res) => {
         "statusCode": 401
     });
 })
+router.delete('/:spotId', async (req, res) => {
+    const { user } = req
+    const { spotId } = req.params
+    if (user) {
+        let spots = await Spot.findByPk(spotId)
+        if (spots !== null) {
+            if (spots.ownerId === user.id) {
+                await spots.destroy()
+                res.json({
+                    message:"Successfully deleted",
+                    statusCode:200
+                })
+            }
+        }else return res.status(404).json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }else return res.status(401).json({
+        "message": "Authentication required",
+        "statusCode": 401
+    });
+})
 module.exports = router;
