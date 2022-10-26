@@ -20,6 +20,14 @@ router.get('/', async (req, res) => {
         }
         avg = sum / reviews.length
         spot.dataValues.avgRating = avg.toFixed(1)
+        let previewImages = await SpotImage.findAll({
+            where: {spotId: spot.ownerId},
+            attributes:["url"],
+            raw:true
+        })
+        if(previewImages.length){
+            spot.dataValues.previewImage = previewImages[0].url
+        }
     }
     res.json({
         Spots: spots
@@ -44,6 +52,12 @@ router.get('/current', async (req, res) => {
         }
         avg = sum / reviews.length
         spots[0].dataValues.avgRating = avg.toFixed(1)
+        let previewImages = await SpotImage.findAll({
+            where: {spotId: spots[0].ownerId},
+            attributes:["url"],
+            raw:true
+        })
+        spots[0].dataValues.previewImage = previewImages[0].url
         res.json({
             Spots: spots
         })
@@ -79,6 +93,28 @@ router.get('/:spotId', async (req, res) => {
     avg = sum / reviews.length
     spots.dataValues.numReviews = reviewCount
     spots.dataValues.avgRating = avg.toFixed(1)
+    //Gets the Preview images for a certain spot
+    let previewImages = await SpotImage.findAll({
+        where: {spotId: spots.ownerId},
+        attributes:["id","url","preview"],
+        raw:true
+    })
+    //Turns values 1 and 0 into booleans
+    for(let preview of previewImages){
+        if(preview.preview === 1){
+            preview.preview = true
+        }
+        if(preview.preview === 0){
+            preview.preview = false
+        }
+    }
+    //Adds Datavalue previewImage to Spots
+    spots.dataValues.previewImage = previewImages
+    let owner = await User.findAll({
+        where: {id:spots.ownerId},
+        attributes:["id","firstName","lastName"]
+    })
+    spots.dataValues.Owner = owner
     res.json(
         spots
     )
@@ -153,6 +189,7 @@ router.post('/', async (req, res) => {
             })
         }
         let spot = await Spot.create({
+            ownerId: user.id,
             address,
             city,
             state,
@@ -163,7 +200,7 @@ router.post('/', async (req, res) => {
             description,
             price,
         })
-        res.json(spot)
+        res.status(201).json(spot)
     } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
@@ -173,24 +210,79 @@ router.post('/', async (req, res) => {
 router.post('/:spotId/images', async (req, res) => {
     const { user } = req
     const { url, preview } = req.body
-    const {spotId} = req.params
+    const { spotId } = req.params
     console.log(user)
-    if (user && await Spot.findByPk(spotId)) {
-        let spotImage = await SpotImage.create({
-            spotId:parseInt(spotId),
-            url:url,
-            preview:preview
-    })
-        res.json(
-            {
-            id:spotImage.id,
-            url:spotImage.url,
-            preview:spotImage.preview
+    if (user) {
+        let spots = await Spot.findByPk(spotId)
+        if (spots !== null) {
+            if(spots.ownerId === user.id){
+            let spotImage = await SpotImage.create({
+                spotId: parseInt(spotId),
+                url: url,
+                preview: preview,
+            })
+            console.log(spotImage)
+            spotImage.dataValues.ownerId = parseInt(user.id)
+            console.log(spotImage)
+            res.json(
+                {
+                    id: spotImage.id,
+                    url: spotImage.url,
+                    preview: spotImage.preview
+                })
+            }
+        } else return res.status(404).json({
+            message: "spot couldn't be found",
+            statusCode: 404
         })
     } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
     });
 })
-
+router.put('/:spotId', async (req, res) => {
+    const { user } = req
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
+    const { spotId } = req.params
+    if (user) {
+        const spots = await Spot.findByPk(spotId, {})
+        if (spots !== null) {
+            if (address) {
+                spots.address = address
+            }
+            if (city) {
+                spots.city = city
+            }
+            if (state) {
+                spots.state = state
+            }
+            if (country) {
+                spots.country = country
+            }
+            if (lat) {
+                spots.lat = lat
+            }
+            if (lng) {
+                spots.lng = lng
+            }
+            if (name) {
+                spots.name = name
+            }
+            if (description) {
+                spots.description = description
+            }
+            if (price) {
+                spots.price = price
+            }
+            await spots.save()
+            res.json(spots)
+        } else return res.status(404).json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    } else return res.status(401).json({
+        "message": "Authentication required",
+        "statusCode": 401
+    });
+})
 module.exports = router;
