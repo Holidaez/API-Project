@@ -39,32 +39,32 @@ router.get('/current', async (req, res) => {
     const { user } = req;
     if (user) {
         let spots = await Spot.findAll({
-            where: {ownerId:user.id}
+            where: { ownerId: user.id }
         })
-        for (let spot of spots){
-        let reviews = await Review.findAll({
-            where: { spotId: spot.id },
-            attributes: ["stars"],
-            raw: true
-        })
+        for (let spot of spots) {
+            let reviews = await Review.findAll({
+                where: { spotId: spot.id },
+                attributes: ["stars"],
+                raw: true
+            })
 
-        let sum = 0
-        for (let review of reviews) {
-            sum += review.stars
+            let sum = 0
+            for (let review of reviews) {
+                sum += review.stars
+            }
+            avg = sum / reviews.length
+            spot.dataValues.avgRating = avg.toFixed(1)
+            let previewImages = await SpotImage.findAll({
+                where: { spotId: spot.ownerId },
+                attributes: ["url"],
+                raw: true
+            })
+            console.log(previewImages)
+            spot.dataValues.previewImage = previewImages[0].url
+            res.json({
+                Spots: spots
+            })
         }
-        avg = sum / reviews.length
-        spot.dataValues.avgRating = avg.toFixed(1)
-        let previewImages = await SpotImage.findAll({
-            where: { spotId: spot.ownerId },
-            attributes: ["url"],
-            raw: true
-        })
-        console.log(previewImages)
-        spot.dataValues.previewImage = previewImages[0].url
-        res.json({
-            Spots: spots
-        })
-    }
     } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
@@ -351,7 +351,7 @@ router.post('/:spotId/reviews', async (req, res) => {
     if (user) {
         let spots = await Spot.findByPk(spotId, {})
         if (spots === null) {
-           return res.status(404).json({
+            return res.status(404).json({
                 message: "Spot couldn't be found",
                 statusCode: 404
             })
@@ -395,36 +395,38 @@ router.post('/:spotId/reviews', async (req, res) => {
     });
 })
 //! Bookings by Spot Id
-router.post('/:spotId/bookings', async (req,res)=>{
-    const {user} = req
-    const {spotId} = req.params
-    const {startDate, endDate} = req.body
-    if(user){
-        let spots = await Spot.findByPk(spotId,{})
-        if (spots === null){
+router.get('/:spotId/bookings', async (req, res) => {
+    const { user } = req
+    const { spotId } = req.params
+    if (user) {
+        let spots = await Spot.findByPk(spotId, {})
+        if (spots === null) {
             return res.status(404).json({
                 message: "Spot couldn't be found",
                 statusCode: 404
             })
         }
         let bookings = await Booking.findAll({
-            where: {spotId: spotId}
+            where: { spotId: spotId }
         })
-        if(user.id !== spots[0].id){
-            return res.json({
-                Bookings:[{
-                    spotId:bookings.spotId,
-                    startDate:bookings.startDate,
-                    endDate:bookings.endDate
-                }]
-            })
+        for (let booking of bookings) {
+
+            if (user.id !== spots.id) {
+                return res.json({
+                    Bookings: [{
+                        spotId: booking.spotId,
+                        startDate: booking.startDate,
+                        endDate: booking.endDate
+                    }]
+                })
+            }
         }
-        for(let booking of bookings){
+        for (let booking of bookings) {
 
             let users = await User.findAll({
-                where: {id: booking.dataValues.userId},
-                attributes: ["id","firstName","lastName"],
-                raw:true
+                where: { id: booking.dataValues.userId },
+                attributes: ["id", "firstName", "lastName"],
+                raw: true
             })
             booking.dataValues.User = users[0]
         }
@@ -434,27 +436,60 @@ router.post('/:spotId/bookings', async (req,res)=>{
     }
 })
 //! Create a booking from a Spot based on Spot Id
-router.post('/:spotId/bookings', async (req, res)=>{
-    const {user} = req
-    const {spotId} = req.params
-    const {startDate, endDate} = req.body
-    if (user){
-        let spots = await Spot.findByPk(spotId,{})
-        if(spots === null){
+router.post('/:spotId/bookings', async (req, res) => {
+    const { user } = req
+    const { spotId } = req.params
+    const { startDate, endDate } = req.body
+    if (user) {
+        let spots = await Spot.findByPk(spotId, {})
+        if (spots === null) {
             return res.status(404).json({
                 message: "Spot couldn't be found",
                 statusCode: 404
             })
         }
-        if(spots.ownerId === user.id){
+        if (spots.ownerId === user.id) {
             return res.status(401).json({
-                message:"You can not book your own Spot",
-                statusCode:403
+                message: "You can not book your own Spot",
+                statusCode: 403
             })
         }
+        if (!startDate) {
+            res.status(400).json({
+                message: 'Validation Error',
+                statusCode: 400,
+                error: "StartDate is invalid"
+            })
+        }
+        if (!endDate) {
+            res.status(400).json({
+                message: 'Validation Error',
+                statusCode: 400,
+                error: "endDate is invalid"
+            })
+        }
+        let bookings = await Booking.findAll({
+            where: { spotId: spotId }
+        })
+        if (bookings !== null) {
+            for (let booking of bookings) {
+                let date1 = new Date(startDate).getTime()
+                let date2 = new Date(endDate).getTime()
+                if (booking.startDate.getTime() === new Date(startDate).getTime() ||
+                    booking.endDate.getTime() === new Date(endDate).getTime() ||
+                    date2 - date1 <= 0
+                ) {
+                    console.log('entered')
+                    return res.status(403).json({
+                        message: "sorry there was a booking conflict",
+                        statusCode: 403
+                    })
+                }
+            }
+        }
         let newBooking = await Booking.create({
-            spotId:spotId,
-            userId:user.id,
+            spotId: spotId,
+            userId: user.id,
             startDate,
             endDate
         })

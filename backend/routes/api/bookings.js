@@ -9,7 +9,7 @@ router.get('/current', async (req,res)=>{
         const bookings = await Booking.findAll()
         for (let booking of bookings){
             let spots = await Spot.findAll({
-                where: {ownderId:booking.userId},
+                where: {ownerId:booking.userId},
                 raw:true
             })
             for (spot of spots){
