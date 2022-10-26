@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Spot, Review, SpotImage } = require('../../db/models');
+const { User, Spot, Review, SpotImage, ReviewImage } = require('../../db/models');
 const spot = require('../../db/models/spot');
 const router = express.Router();
 //Returns all spots
@@ -21,11 +21,11 @@ router.get('/', async (req, res) => {
         avg = sum / reviews.length
         spot.dataValues.avgRating = avg.toFixed(1)
         let previewImages = await SpotImage.findAll({
-            where: {spotId: spot.ownerId},
-            attributes:["url"],
-            raw:true
+            where: { spotId: spot.ownerId },
+            attributes: ["url"],
+            raw: true
         })
-        if(previewImages.length){
+        if (previewImages.length) {
             spot.dataValues.previewImage = previewImages[0].url
         }
     }
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
         Spots: spots
     })
 })
-//Returns the Spots for whoever is logged in
+//Returns the Spots for whoever is logged in//!Needs to be fixed
 router.get('/current', async (req, res) => {
     const { user } = req;
     if (user) {
@@ -53,9 +53,9 @@ router.get('/current', async (req, res) => {
         avg = sum / reviews.length
         spots[0].dataValues.avgRating = avg.toFixed(1)
         let previewImages = await SpotImage.findAll({
-            where: {spotId: spots[0].ownerId},
-            attributes:["url"],
-            raw:true
+            where: { spotId: spots[0].ownerId },
+            attributes: ["url"],
+            raw: true
         })
         spots[0].dataValues.previewImage = previewImages[0].url
         res.json({
@@ -95,24 +95,24 @@ router.get('/:spotId', async (req, res) => {
     spots.dataValues.avgRating = avg.toFixed(1)
     //Gets the Preview images for a certain spot
     let previewImages = await SpotImage.findAll({
-        where: {spotId: spots.id},
-        attributes:["id","url","preview"],
-        raw:true
+        where: { spotId: spots.id },
+        attributes: ["id", "url", "preview"],
+        raw: true
     })
     //Turns values 1 and 0 into booleans
-    for(let preview of previewImages){
-        if(preview.preview === 1){
+    for (let preview of previewImages) {
+        if (preview.preview === 1) {
             preview.preview = true
         }
-        if(preview.preview === 0){
+        if (preview.preview === 0) {
             preview.preview = false
         }
     }
     //Adds Datavalue previewImage to Spots
     spots.dataValues.previewImage = previewImages
     let owner = await User.findAll({
-        where: {id:spots.ownerId},
-        attributes:["id","firstName","lastName"]
+        where: { id: spots.ownerId },
+        attributes: ["id", "firstName", "lastName"]
     })
     spots.dataValues.Owner = owner
     res.json(
@@ -215,21 +215,19 @@ router.post('/:spotId/images', async (req, res) => {
     if (user) {
         let spots = await Spot.findByPk(spotId)
         if (spots !== null) {
-            if(spots.ownerId === user.id){
-            let spotImage = await SpotImage.create({
-                spotId: parseInt(spotId),
-                url: url,
-                preview: preview,
-            })
-            console.log(spotImage)
-            spotImage.dataValues.ownerId = parseInt(user.id)
-            console.log(spotImage)
-            res.json(
-                {
-                    id: spotImage.id,
-                    url: spotImage.url,
-                    preview: spotImage.preview
+            if (spots.ownerId === user.id) {
+                let spotImage = await SpotImage.create({
+                    spotId: parseInt(spotId),
+                    url: url,
+                    preview: preview,
                 })
+                spotImage.dataValues.ownerId = parseInt(user.id)
+                res.json(
+                    {
+                        id: spotImage.id,
+                        url: spotImage.url,
+                        preview: spotImage.preview
+                    })
             }
         } else return res.status(404).json({
             message: "spot couldn't be found",
@@ -294,17 +292,108 @@ router.delete('/:spotId', async (req, res) => {
             if (spots.ownerId === user.id) {
                 await spots.destroy()
                 res.json({
-                    message:"Successfully deleted",
-                    statusCode:200
+                    message: "Successfully deleted",
+                    statusCode: 200
                 })
             }
-        }else return res.status(404).json({
+        } else return res.status(404).json({
             message: "Spot couldn't be found",
             statusCode: 404
         })
-    }else return res.status(401).json({
+    } else return res.status(401).json({
         "message": "Authentication required",
         "statusCode": 401
     });
 })
+
+//! Get all reviews by a Spot's id
+router.get('/:spotId/reviews', async (req, res) => {
+    const { spotId } = req.params
+    let spots = await Spot.findByPk(spotId, {})
+    if (spots === null) {
+        res.status(404).json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    let reviews = await Review.findAll({
+        where: { spotId: spotId }
+    })
+    for (let review of reviews) {
+        let users = await User.findAll({
+            where: { id: review.dataValues.userId },
+            attributes: ["id", "firstName", "lastName"],
+            raw: true
+        })
+        let reviewImages = await ReviewImage.findAll({
+            where: { reviewId: review.dataValues.id },
+            attributes: ["id", "url"],
+            raw: true
+        })
+        //! IMPORTS into the object
+        review.dataValues.User = users[0]
+        review.dataValues.ReviewImages = reviewImages
+    }
+    res.json({
+        Reviews: [reviews]
+    })
+})
+//! Create a review for A Spot based on Spot Id
+router.post('/:spotId/reviews', async (req, res) => {
+    const { user } = req
+    const { spotId } = req.params
+    const { review, stars } = req.body
+    if (user) {
+        let spots = await Spot.findByPk(spotId, {})
+        if (spots === null) {
+            res.status(404).json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+        let reviews = await Review.findAll({
+        })
+        for (let reviewz of reviews) {
+            if (reviewz.dataValues.spotId === parseInt(spotId) && reviewz.userId === user.id) {
+                console.log("entered")
+                return res.status(403).json({
+                    message: "User already has a review for this spot",
+                    statusCode: 403
+                })
+
+            }
+        }
+        if (!review) {
+            res.status(400).json({
+                message: "Validation Error",
+                statusCode: 400,
+                errors: "Review text is required"
+            })
+        }
+        if (!stars) {
+            res.status(400).json({
+                message: "Validation Error",
+                statusCode: 400,
+                errors: "Stars must be an integer from 1 to 5"
+            })
+        }
+        let newReview = await Review.create({
+            userId: user.id,
+            spotId: parseInt(spotId),
+            review,
+            stars
+        })
+        res.status(201).json(newReview)
+    } else return res.status(401).json({
+        "message": "Authentication required",
+        "statusCode": 401
+    });
+})
+
+
+
+
+
+
+
 module.exports = router;
