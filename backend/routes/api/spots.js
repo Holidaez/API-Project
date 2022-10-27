@@ -4,8 +4,28 @@ const spot = require('../../db/models/spot');
 const router = express.Router();
 //Returns all spots //! Fix seed data so that they have previewImages
 router.get('/', async (req, res) => {
-    let spots = await Spot.findAll()
     let avg;
+    let {page, size, minLat,maxLat,minLng,maxLng,minPrice,maxPrice} = req.query
+    if(!page){
+        page = 1
+    }
+    if(!size){
+        size = 20
+    }
+    let pagination = {}
+    if(parseInt(page)>= 1 && parseInt(size) >= 1){
+        if(parseInt(page)>10){
+            page = 10
+        }
+        if(parseInt(size) > 20){
+            size = 20
+        }
+        pagination.limit = size
+        pagination.offset = size * (page-1)
+    }
+    let spots = await Spot.findAll({
+        ...pagination
+    })
     for (let spot of spots) {
 
         let reviews = await Review.findAll({
@@ -472,7 +492,6 @@ router.post('/:spotId/bookings', async (req, res) => {
                     booking.endDate.getTime() === new Date(endDate).getTime() ||
                     date2 - date1 <= 0
                 ) {
-                    console.log('entered')
                     return res.status(403).json({
                         message: "sorry there was a booking conflict",
                         statusCode: 403
@@ -490,6 +509,5 @@ router.post('/:spotId/bookings', async (req, res) => {
     }
 })
 //test
-
 
 module.exports = router;

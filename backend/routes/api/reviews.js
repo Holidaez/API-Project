@@ -37,7 +37,7 @@ router.get('/current', async (req, res) => {
                 }
 
             }
-            
+
             let reviewImages = await ReviewImage.findAll({
                 where: { reviewId: review.id },
                 attributes: ["id", "url"],
@@ -127,9 +127,9 @@ router.delete('/:reviewId', async (req, res) => {
         const reviews = await Review.findByPk(reviewId, {})
         if (reviews !== null) {
             if (reviews.userId !== user.id) {
-                return res.status(401).json({
+                return res.status(403).json({
                     "message": "Authentication required",
-                    "statusCode": 401
+                    "statusCode": 403
                 });
             }
             await reviews.destroy()
@@ -143,7 +143,7 @@ router.delete('/:reviewId', async (req, res) => {
         })
     } else return res.status(401).json({
         "message": "Authentication required",
-        "statusCode": 404
+        "statusCode": 401
     })
 })
 //test
