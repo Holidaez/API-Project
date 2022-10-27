@@ -52,7 +52,9 @@ router.get('/', async (req, res) => {
         }
     }
     res.json({
-        Spots: spots
+        Spots: spots,
+        page,
+        size
     })
 })
 router.get('/current', async (req, res) => {
