@@ -115,5 +115,47 @@ router.put('/:bookingId', async (req, res) => {
     });
 })
 
+//! DELETE A BOOKING
+
+router.delete('/:bookingId', async (req, res)=>{
+    const {user} = req
+    const {bookingId} = req.params
+    if (user){
+        const bookings = await Booking.findByPk(bookingId,{})
+        if (bookings !== null) {
+            if (bookings.userId !== user.id){
+                return res.status(403).json({
+                    "message": "Authentication required",
+                    "statusCode": 403
+                });
+            }
+            const date1 = new Date(bookings.startDate).getTime()
+            const date2 = new Date(bookings.endDate).getTime()
+            const currentDate = new Date()
+            if(currentDate > date1 || currentDate > date2){
+                res.status(403).json({
+                    message:"Bookings that have been started can't be deleted",
+                    statusCode:403
+                })
+            }
+            await bookings.destroy()
+            res.status(200).json({
+                message: "Successfully deleted",
+                statusCode:200
+            })
+        }else return res.status(404).json({
+            message: "Booking couldn't be found",
+            statusCode: 404
+        })
+    }return res.status(401).json({
+        "message": "Authentication required",
+        "statusCode": 401
+    });
+})
+
+
+
+
+
 
 module.exports = router;
