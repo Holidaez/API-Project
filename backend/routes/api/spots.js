@@ -479,7 +479,6 @@ router.post('/:spotId/bookings', async (req, res) => {
                     booking.endDate.getTime() === new Date(endDate).getTime() ||
                     date2 - date1 <= 0
                 ) {
-                    console.log('entered')
                     return res.status(403).json({
                         message: "sorry there was a booking conflict",
                         statusCode: 403
