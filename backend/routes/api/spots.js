@@ -45,11 +45,11 @@ router.get('/', async (req, res) => {
             attributes: ["url"],
             raw: true
         })
-        if (previewImages.length) {
+        // if (previewImages.length) {
             spot.dataValues.previewImage = previewImages[0].url
-        } else {
-            spot.dataValues.previewImage = "image url"
-        }
+        // } else {
+        //     spot.dataValues.previewImage = "image url"
+        // }
     }
     res.json({
         Spots: spots,
