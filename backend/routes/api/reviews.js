@@ -43,8 +43,6 @@ router.get('/current', async (req, res) => {
                 attributes: ["id", "url"],
                 raw: true
             })
-            console.log(reviewImages.reviewId)
-            console.log(reviewImages)
             review.dataValues.User = users[0]
             review.dataValues.Spot = spot
             review.dataValues.ReviewImages = reviewImages
@@ -64,6 +62,15 @@ router.post('/:reviewId/images', async (req, res) => {
     const { url } = req.body
     if (user) {
         let reviews = await Review.findByPk(reviewId)
+        let totalReviews = await ReviewImage.findAll({
+            where: {reviewId:reviewId}
+        })
+        if(totalReviews.length > 9){
+           return res.status(403).json({
+            message:"Maximum number of images for this resource was reached",
+            statusCode:403
+           })
+        }
         if (reviews !== null) {
             console.log(reviews.userId)
             if (reviews.userId === user.id) {
