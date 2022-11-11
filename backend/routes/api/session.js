@@ -26,12 +26,15 @@ router.get(
     (req, res) => {
       const { user } = req;
       if (user) {
-        return res.json(
-          user.toSafeObject()
-        );
+       return res.json({user:{
+          id:user.id,
+          firstName:user.firstName,
+          lastName:user.lastName,
+          email:user.email,
+          username:user.username,
+        }});
       } else return res.status(401).json({
-        "message": "Authentication required",
-        "statusCode": 401
+        user:null
       });
     }
   );
@@ -54,14 +57,13 @@ router.post(
     }
 
     await setTokenCookie(res, user);
-    return res.json({
+    return res.json({user:{
       id:user.id,
       firstName:user.firstName,
       lastName:user.lastName,
       email:user.email,
       username:user.username,
-      token:""
-    });
+    }});
   }
 );
 //! END LOGIN ROUTE
