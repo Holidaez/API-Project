@@ -33,11 +33,13 @@ const setTokenCookie = (res, user) => {
 
     return jwt.verify(token, secret, null, async (err, jwtPayload) => {
       if (err) {
+        console.log("entered err")
         return next();
       }
 
       try {
-        const { id } = jwtPayload.data;
+      const { id } = jwtPayload.data;
+      console.log("id in restore user is" + id)
         req.user = await User.scope('currentUser').findByPk(id);
       } catch (e) {
         res.clearCookie('token');

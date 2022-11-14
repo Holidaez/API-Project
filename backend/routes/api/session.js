@@ -24,6 +24,7 @@ router.get(
     '/',
     restoreUser,
     (req, res) => {
+      console.log("in get route" + req.user)
       const { user } = req;
       if (user) {
        return res.json({user:{
@@ -33,7 +34,7 @@ router.get(
           email:user.email,
           username:user.username,
         }});
-      } else return res.status(401).json({
+      } else return res.json({
         user:null
       });
     }
