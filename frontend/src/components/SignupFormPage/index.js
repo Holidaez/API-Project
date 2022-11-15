@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignupForm.css';
 
-function SignupFormPage() {
+function SignupFormPage({setShowModal}) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
@@ -12,8 +12,8 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [firstName, setFirstname] = useState("");
+  const [lastName, setLastname] = useState("");
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -21,7 +21,8 @@ function SignupFormPage() {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors([]);
-      return dispatch(sessionActions.signup({ email, username, password }))
+      return dispatch(sessionActions.signup({ email, username, password, firstName,lastName }))
+        .then(setShowModal(false))
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
@@ -75,7 +76,7 @@ function SignupFormPage() {
         Firstname
         <input
           type="text"
-          value={firstname}
+          value={firstName}
           onChange={(e) => setFirstname(e.target.value)}
           required
         />
@@ -84,7 +85,7 @@ function SignupFormPage() {
         Lastname
         <input
           type="text"
-          value={lastname}
+          value={lastName}
           onChange={(e) => setLastname(e.target.value)}
           required
         />
