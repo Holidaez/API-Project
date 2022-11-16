@@ -15,12 +15,12 @@ module.exports = {
      return queryInterface.bulkInsert('SpotImages',[
       {
         spotId:1,
-        url:"images url",
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
         preview:true
       },
       {
         spotId:1,
-        url:"images url",
+        url:"https://image.shutterstock.com/image-vector/illustration-simple-house-isolated-on-260nw-1937900650.jpg",
         preview:false
       },
       {

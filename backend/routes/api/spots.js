@@ -42,14 +42,19 @@ router.get('/', async (req, res) => {
         spot.dataValues.avgRating = avg.toFixed(1)
         let previewImages = await SpotImage.findAll({
             where: { spotId: spot.ownerId },
-            attributes: ["url"],
+            attributes: ["url","preview"],
             raw: true
         })
-        // if (previewImages.length) {
-            spot.dataValues.previewImage = previewImages[0].url
-        // } else {
-        //     spot.dataValues.previewImage = "image url"
-        // }
+        for(let previewImage of previewImages){
+
+            if (previewImage.preview === 1) {
+                spot.dataValues.previewImage = previewImage.url
+            }
+            // else {
+            //     spot.dataValues.previewImage = "https://banner2.cleanpng.com/20180405/sfw/kisspng-no-symbol-sign-clip-art-signs-5ac5b699e31775.9854803015229067779302.jpg"
+            // }
+        }
+        console.log(spot.name, spot.dataValues.previewImage)
     }
     res.json({
         Spots: spots,
@@ -150,7 +155,7 @@ router.post('/', async (req, res) => {
     const { user } = req
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     if (user) {
-        if (!address) {
+        if (!address || address==='') {
             res.status(400).json({
                 message: 'Validation Error',
                 statusCode: 400,
