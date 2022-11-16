@@ -10,6 +10,7 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
+  const user = useSelector(state => state.user)
   const [showModal, setShowModal] = useState(false)
   const [login, setLogin] = useState(true)
 
@@ -49,7 +50,10 @@ useEffect(()=>{
         </Modal>
 
       )}
-      <li><NavLink exact to="/spot/new">Create Spot</NavLink></li>
+      {user !== null && (
+        <li><NavLink exact to="/spot/new">Create Spot</NavLink></li>
+
+      )}
     </ul>
   );
 }

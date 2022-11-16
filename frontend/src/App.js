@@ -6,6 +6,9 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotGetter from "./components/GetAllSpots";
 import SpotInput from "./components/CreateASpot";
+import SpotUpdater from "./components/UpdateASpot";
+import CurrentSpotDetails from "./components/SpotDetails";
+import DeleteASpot from "./components/DeleteASpot";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -22,10 +25,19 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path="/">
-            <SpotGetter/>
+            <SpotGetter />
           </Route>
           <Route path='/spot/new'>
-            <SpotInput/>
+            <SpotInput />
+          </Route>
+          <Route path='/currentSpot/:spotId'>
+            <CurrentSpotDetails />
+          </Route>
+          <Route path='/update/:spotId'>
+            <SpotUpdater />
+          </Route>
+          <Route path='/delete/:spotId'>
+            <DeleteASpot />
           </Route>
         </Switch>
       )}
