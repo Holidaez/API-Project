@@ -9,53 +9,59 @@ import { Modal } from '../../context/Modal';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
-  const sessionUser = useSelector(state => state.session.user);
-  const user = useSelector(state => state.user)
+  const sessionUser = useSelector(state => state.session.user)
+  const user = useSelector(state => state.session.user)
   const [showModal, setShowModal] = useState(false)
   const [login, setLogin] = useState(true)
 
-  let sessionLinks;
-  if (sessionUser) {
-    sessionLinks = (<ProfileButton user={sessionUser} />);
-  } else {
-    sessionLinks = (
-      <>
-        <LoginFormModal />
-        <NavLink to="/signup">Sign Up</NavLink>
-      </>
-    );
-  }
-useEffect(()=>{
-  console.log("showModalTracker" , showModal)
-},[showModal])
+  // let sessionLinks;
+  // if (sessionUser) {
+  //   sessionLinks = (<ProfileButton user={sessionUser} />);
+  // } else {
+  //   sessionLinks = (
+  //     <>
+  //       <LoginFormModal />
+  //       <NavLink to="/signup">Sign Up</NavLink>
+  //     </>
+  //   );
+  // }
+  useEffect(() => {
+    console.log("showModalTracker", showModal)
+  }, [showModal])
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">
-          Home
-        </NavLink>
-        {isLoaded && (
-          <ProfileButton
-            user={sessionUser}
-            setLogin={setLogin}
-            setShowModal={setShowModal}
-          />
-        )}
-      </li>
+    <div className='nav-container'>
+
+    <nav className='navBar'>
+      {/* sends the user home */}
+      <NavLink exact to="/">
+        KeeganBNB
+      </NavLink>
+
+      {/* {//Allows User to create a spot while logged in}} */}
+      {user !== null && (
+        <NavLink exact to="/spot/new">Create Spot</NavLink>
+
+      )}
+      {/* allows signin/signup modals to be used */}
+      {isLoaded && (
+        <ProfileButton
+          user={sessionUser}
+          setLogin={setLogin}
+          setShowModal={setShowModal}
+        />
+      )}
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          {login ? (<LoginForm setShowModal={setShowModal}/>
+          {login ? (<LoginForm setShowModal={setShowModal} />
           ) : (
-          <SignupFormPage setShowModal={setShowModal}/>)}
+            <SignupFormPage setShowModal={setShowModal} />)}
         </Modal>
-
       )}
-      {user !== null && (
-        <li><NavLink exact to="/spot/new">Create Spot</NavLink></li>
 
-      )}
-    </ul>
+    </nav>
+    </div>
+
   );
 }
 
-export default Navigation;
+export default Navigation
