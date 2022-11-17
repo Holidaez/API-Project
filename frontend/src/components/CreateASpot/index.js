@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { createASpot } from "../../store/spotsReducer"
 import { Redirect, useHistory } from "react-router-dom";
-
+import "./CreateASpot.css"
 
 const SpotInput = () => {
     const history = useHistory()
@@ -55,69 +55,72 @@ const SpotInput = () => {
         }
     }
     return (
-        <div className="spotForm">
+        <div className="spot-form-container">
             <h1>Host Your Home</h1>
             <ul className="errors">{errors.map(e => (
                 <li key={e}>{e}</li>))}
             </ul>
-            <form onSubmit={handleSubmit}>
-                <input
+            <form onSubmit={handleSubmit} className="spot-form">
+                <div className="form-elements">
+
+                <input className="form-elements"
                     type='text'
                     onChange={(e) => setAddress(e.target.value)}
                     value={address}
                     placeholder='Address'
                     name='Address'
                 />
-                <input
+                <input className="form-elements"
                     type='text'
                     onChange={(e) => setCity(e.target.value)}
                     value={city}
                     placeholder='City'
                     name='City'
                 />
-                <input
+                <input className="form-elements"
                     type='text'
                     onChange={(e) => setState(e.target.value)}
                     value={state}
                     placeholder='State'
                     name='State'
                 />
-                <input
+                <input className="form-elements"
                     type='text'
                     onChange={(e) => setCountry(e.target.value)}
                     value={country}
                     placeholder='Country'
                     name='Country'
                 />
-                <input
+                <input className="form-elements"
                     type='text'
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                     placeholder='Name'
                     name='Name'
                 />
-                <input
+                <input className="form-elements"
                     type='text'
                     onChange={(e) => setPreviewImage(e.target.value)}
                     value={previewImage}
                     placeholder='PreviewImage'
                     name='PreviewImage'
                 />
-                <input
+                <input className="form-elements"
                     type='text'
                     onChange={(e) => setPrice(e.target.value)}
                     value={price}
                     placeholder='Price'
                     name='Price'
                 />
-                <textarea
+                <textarea className="form-elements-description"
                     onChange={(e) => setDescription(e.target.value)}
                     value={description}
                     placeholder='Description'
                     name='Description'
                     rows='20'
                 ></textarea>
-                <button type='submit' disabled={errors.length > 0}>Submit Home</button>
+                </div>
+                <button type='submit' className="submit-button" disabled={errors.length > 0}>Submit Home</button>
             </form>
         </div>
     )

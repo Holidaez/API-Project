@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { findASpot, updateASpot } from "../../store/spotsReducer"
 import { Redirect, useParams, useHistory } from "react-router-dom";
-
+import './UpdateASpot.css'
 
 
 const SpotUpdater = () => {
@@ -61,69 +61,70 @@ const SpotUpdater = () => {
             history.push(`/currentSpot/${spots.id}`)
         }
     }
-  return (
-    <div className="spotForm">
+    return (
+        <div className="spot-form-container">
             <h1>Update Your Home</h1>
-
             <ul className="errors">{errors.map(e => (
                 <li key={e}>{e}</li>))}
             </ul>
+            <form onSubmit={handleSubmit} className="spot-form">
+                <div className="form-elements">
 
-            <form onSubmit={handleSubmit}>
-
-                <input
-                type= 'text'
-                onChange={(e) => setAddress(e.target.value)}
-                value={address}
-                placeholder='Address'
-                name='Address'
+                <input className="form-elements"
+                    type='text'
+                    onChange={(e) => setAddress(e.target.value)}
+                    value={address}
+                    placeholder='Address'
+                    name='Address'
                 />
-                 <input
-                type= 'text'
-                onChange={(e) => setCity(e.target.value)}
-                value={city}
-                placeholder='City'
-                name='City'
+                <input className="form-elements"
+                    type='text'
+                    onChange={(e) => setCity(e.target.value)}
+                    value={city}
+                    placeholder='City'
+                    name='City'
                 />
-                 <input
-                type= 'text'
-                onChange={(e) => setState(e.target.value)}
-                value={state}
-                placeholder='State'
-                name='State'
+                <input className="form-elements"
+                    type='text'
+                    onChange={(e) => setState(e.target.value)}
+                    value={state}
+                    placeholder='State'
+                    name='State'
                 />
-                 <input
-                type= 'text'
-                onChange={(e) => setCountry(e.target.value)}
-                value={country}
-                placeholder='Country'
-                name='Country'
+                <input className="form-elements"
+                    type='text'
+                    onChange={(e) => setCountry(e.target.value)}
+                    value={country}
+                    placeholder='Country'
+                    name='Country'
                 />
-                 <input
-                type= 'text'
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                placeholder='Name'
-                name='Name'
+                <input className="form-elements"
+                    type='text'
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                    placeholder='Name'
+                    name='Name'
                 />
-                 <input
-                type= 'text'
-                onChange={(e) => setPrice(e.target.value)}
-                value={price}
-                placeholder='Price'
-                name='Price'
+                <input className="form-elements"
+                    type='text'
+                    onChange={(e) => setPrice(e.target.value)}
+                    value={price}
+                    placeholder='Price'
+                    name='Price'
                 />
-                 <textarea
-                onChange={(e) => setDescription(e.target.value)}
-                value={description}
-                placeholder='Description'
-                name='Description'
-                rows='20'
+                <textarea className="form-elements-description"
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
+                    placeholder='Description'
+                    name='Description'
+                    rows='20'
                 ></textarea>
-                <button type='submit' disabled={errors.length > 0}>Submit Home</button>
+                </div>
+                <button type='submit' className="submit-button-update" disabled={errors.length > 0}>Submit Home</button>
             </form>
         </div>
-  )
+    )
+
 }
 
 export default SpotUpdater

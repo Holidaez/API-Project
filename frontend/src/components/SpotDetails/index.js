@@ -26,11 +26,12 @@ const CurrentSpotDetails = () => {
       <p>{spots.address}</p>
       <p>${spots.price} night</p>
       <p>{spots.description}</p>
-      {spots.Owner && user.id === spots.Owner.id && (
+
+      {spots.Owner && user && user.id === spots.Owner.id && (
         <Link to={`/update/${spots.id}`}>Edit</Link>
       )}
       <p>
-      {spots.Owner && user.id === spots.Owner.id && (
+      {spots.Owner && user && user.id === spots.Owner.id && (
         <Link to={`/delete/${spots.id}`}>Delete Spot</Link>
       )}
       </p>
