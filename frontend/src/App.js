@@ -9,6 +9,8 @@ import SpotInput from "./components/CreateASpot";
 import SpotUpdater from "./components/UpdateASpot";
 import CurrentSpotDetails from "./components/SpotDetails";
 import DeleteASpot from "./components/DeleteASpot";
+import LeaveAReview from "./components/LeaveAReview";
+import DeleteAReview from "./components/DeleteAReview";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -38,6 +40,12 @@ function App() {
           </Route>
           <Route path='/delete/:spotId'>
             <DeleteASpot />
+          </Route>
+          <Route path='/create/review/:spotId'>
+            <LeaveAReview />
+          </Route>
+          <Route path='/review/delete/:reviewId'>
+            <DeleteAReview/>
           </Route>
         </Switch>
       )}

@@ -7,10 +7,11 @@ const DeleteASpot = () => {
     const dispatch = useDispatch()
     const spot = useSelector(state => state.spots)
     const history = useHistory()
-    const handleClick =  (spot) => {
-        const yo =  dispatch(deleteSpot(spot))
-
-        history.push('/')
+    const handleClick = (spot) => {
+        const yo = dispatch(deleteSpot(spot))
+        if (yo) {
+            history.push('/')
+        }
 
     }
     return (

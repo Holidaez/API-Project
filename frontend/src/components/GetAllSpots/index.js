@@ -28,12 +28,11 @@ const SpotGetter = () => {
 
     const spotItems = Object.values(spots).map((spotItem) => {
         const rating = spotItem.avgRating !== "NaN" ? (
-            <h4 className='spot-rating'><i class="fa-solid fa-star">
+            <h4 className='spot-rating'><i className="fa-solid fa-star">
             </i>{spotItem.avgRating}</h4>
         ) : (
             <p className='no-reviews'>No Reviews</p>
         )
-            console.log(spotItem.avgRating)
         return (
             <li key={spotItem.id} className='spot-list-item'>
                 <img src={spotItem.previewImage} alt="image Machine Broke" className='image'></img>
@@ -43,7 +42,7 @@ const SpotGetter = () => {
                 </div>
 
                 <p className='spot-price'>${spotItem.price} night</p>
-                <Link to={`/currentSpot/${spotItem.id}`}>
+                <Link to={`/currentSpot/${spotItem.id}`} className="link">
                     <span>More Details</span>
                 </Link>
             </li>

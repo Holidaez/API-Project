@@ -1,3 +1,4 @@
+
 .nav-container{
     width:100%;
     border-top: solid 0.25px rgb(215, 215, 215);
@@ -26,4 +27,9 @@
     width: 102px;
     margin: auto;
     font-size: 15px;
+    border-color: rgb(177, 177, 177);
+    border-radius: 10px;
+}
+.web-logo{
+    max-height: 20px;
 }

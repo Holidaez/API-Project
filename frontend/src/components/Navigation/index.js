@@ -33,13 +33,13 @@ function Navigation({ isLoaded }) {
 
     <nav className='navBar'>
       {/* sends the user home */}
-      <NavLink exact to="/">
-        KeeganBNB
+      <NavLink exact to="/" className="link">
+        <img src='https://cdn.usbrandcolors.com/images/logos/airbnb-logo.svg' alt='logo' className='web-logo'></img>KeeganBNB
       </NavLink>
 
       {/* {//Allows User to create a spot while logged in}} */}
       {user !== null && (
-        <NavLink exact to="/spot/new">Create Spot</NavLink>
+        <NavLink exact to="/spot/new" className="link">Create Spot</NavLink>
 
       )}
       {/* allows signin/signup modals to be used */}
