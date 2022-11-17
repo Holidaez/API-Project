@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
         ...pagination
     })
     for (let spot of spots) {
-
+        console.log(spot)
         let reviews = await Review.findAll({
             where: { spotId: spot.id },
             attributes: ["stars"],
@@ -41,20 +41,18 @@ router.get('/', async (req, res) => {
         avg = sum / reviews.length
         spot.dataValues.avgRating = avg.toFixed(1)
         let previewImages = await SpotImage.findAll({
-            where: { spotId: spot.ownerId },
+            where: { spotId: spot.id },
             attributes: ["url","preview"],
             raw: true
         })
         for(let previewImage of previewImages){
-
+            console.log(previewImage)
             if (previewImage.preview === 1) {
                 spot.dataValues.previewImage = previewImage.url
             }
-            // else {
-            //     spot.dataValues.previewImage = "https://banner2.cleanpng.com/20180405/sfw/kisspng-no-symbol-sign-clip-art-signs-5ac5b699e31775.9854803015229067779302.jpg"
-            // }
+
         }
-        console.log(spot.name, spot.dataValues.previewImage)
+        console.log(spot)
     }
     res.json({
         Spots: spots,
@@ -125,7 +123,7 @@ router.get('/:spotId', async (req, res) => {
     spots.dataValues.avgStarRating = avg.toFixed(1)
     //Gets the Preview images for a certain spot
     let previewImages = await SpotImage.findAll({
-        where: { spotId: spots.ownerId },
+        where: { spotId: spots.id },
         attributes: ["id", "url", "preview"],
         raw: true
     })

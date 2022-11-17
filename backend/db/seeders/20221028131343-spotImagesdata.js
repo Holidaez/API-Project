@@ -20,24 +20,69 @@ module.exports = {
       },
       {
         spotId:1,
-        url:"https://image.shutterstock.com/image-vector/illustration-simple-house-isolated-on-260nw-1937900650.jpg",
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
         preview:false
       },
       {
         spotId:2,
-        url:"images url",
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
         preview:true
       },
       {
         spotId:3,
-        url:"images url",
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
         preview:true
       },
       {
-        spotId:3,
-        url:"images url",
-        preview:false
+        spotId:4,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
       },
+      {
+        spotId:5,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
+      },
+      {
+        spotId:6,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
+      },
+      {
+        spotId:7,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
+      },
+      {
+        spotId:8,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
+      },
+      {
+        spotId:9,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
+      },
+      {
+        spotId:10,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
+      },
+      {
+        spotId:11,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
+      },
+      {
+        spotId:11,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
+      },
+      {
+        spotId:12,
+        url:"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
+        preview:true
+      }
      ])
   },
 
