@@ -4,7 +4,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { deleteReview } from '../../store/spotsReducer';
 
 import { useParams } from 'react-router-dom'
-
+import "../../index.css"
 const DeleteAReview = () => {
     const {reviewId} = useParams()
     console.log(reviewId)

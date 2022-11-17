@@ -8,7 +8,6 @@ import './SpotDetails.css'
 const CurrentSpotDetails = () => {
   const { spotId } = useParams()
   const dispatch = useDispatch()
-  // const history = useHistory()
   const spots = useSelector(state => state.spots)
   const user = useSelector(state => state.session.user)
   let spotReviews;
@@ -34,7 +33,7 @@ const CurrentSpotDetails = () => {
             <p><i className="fa-solid fa-star"></i>{review.stars}</p>
             <p> {review.review}</p>
             <p>
-              {user.id === review.User.id && (
+              {user && user.id === review.User.id && (
                 <Link to={`/review/delete/${review.id}`} className="link">Delete Review</Link>
               )}
             </p>
@@ -84,9 +83,9 @@ const CurrentSpotDetails = () => {
           <Link to={`/delete/${spots.id}`} className="link">Delete Spot</Link>
         )}
       </p>
-      <p>
+      <p className="review-button">
         {spots.Owner && user && user.id !== spots.Owner.id && (
-          <Link to={`/create/review/${spots.id}`} className="link">Leave A Review</Link>
+          <Link to={`/create/review/${spots.id}`} className="link">Leave Your Review</Link>
         )}
       </p>
     </div>

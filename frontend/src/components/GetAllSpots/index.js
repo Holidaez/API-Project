@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { getAllSpots } from '../../store/spotsReducer.js'
 import { Link } from 'react-router-dom'
 import './GetAllSpots.css'
-
+import '../../index.css'
 /**
  *session:{},
  * Spots:[
@@ -27,6 +27,7 @@ const SpotGetter = () => {
 
 
     const spotItems = Object.values(spots).map((spotItem) => {
+        // console.log(spotItem)
         const rating = spotItem.avgRating !== "NaN" ? (
             <h4 className='spot-rating'><i className="fa-solid fa-star">
             </i>{spotItem.avgRating}</h4>

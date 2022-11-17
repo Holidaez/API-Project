@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import { createASpot } from "../../store/spotsReducer"
 import { Redirect, useHistory } from "react-router-dom";
 import "./CreateASpot.css"
-
+import "../../index.css"
 const SpotInput = () => {
     const history = useHistory()
     const dispatch = useDispatch()
