@@ -1,3 +1,43 @@
+
+.home-page-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.spot-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.spot-list-item {
+    list-style: none;
+    width: 15%;
+    margin-top: 25px;
+    text-align: left;
+}
+.city-state-rating-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.spot-rating{
+    font-size: 15px;
+    display: inline-flex;
+}
+.no-reviews{
+    font-size: 13px;
+}
 .image{
-    max-width: 50px;
+    max-width: 100%;
+    border-radius: 10px;
+}
+.spot-price{
+    margin-top: 2px;
+    margin-bottom: 2px;
 }

@@ -60,7 +60,6 @@ export const createASpot = (payload) => async (dispatch) => {
     })
     if (response.ok) {
         const newSpot = await response.json()
-        // console.log(response)
         const res2 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
