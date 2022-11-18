@@ -80,6 +80,7 @@
     position: relative;
     top: 80px;
     text-align: center;
+    padding: 15px;
 }
 
 .city-state {
@@ -119,5 +120,5 @@
     border-top: 1px solid gray;
 }
 .review-button-container{
-    padding: 15px;
+    padding: 30px;
 }
