@@ -25,7 +25,7 @@ const SpotGetter = () => {
 
     }, [dispatch])
 
-
+    console.log(spots)
     const spotItems = Object.values(spots).map((spotItem) => {
         // console.log(spotItem)
         const rating = spotItem.avgRating !== "NaN" ? (
