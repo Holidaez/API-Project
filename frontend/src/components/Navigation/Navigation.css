@@ -1,0 +1,41 @@
+
+.nav-container{
+    width:100%;
+    border-top: solid 0.25px rgb(215, 215, 215);
+    border-bottom: solid 0.25px rgb(215, 215, 215);
+    position: sticky;
+    z-index: 10;
+    top: 0px;
+    left: 0px;
+    background-color: white;
+}
+
+.navBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+    height: 70px;
+    font-size: 20px;
+}
+
+.user-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 102px;
+    margin: auto;
+    font-size: 15px;
+    border-color: rgb(177, 177, 177);
+    border-radius: 10px;
+}
+.web-logo{
+    max-height: 20px;
+}
+.link-navbar {
+    color: #ff5a5f;
+    text-decoration: none;
+}

@@ -1,0 +1,44 @@
+
+.spot-form-container{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80%;
+    width: 100%;
+}
+
+
+.spot-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    height: 70%;
+    width: 300px;
+}
+
+.form-elements{
+    width: 300px;
+    margin-top: 5px;
+    height: 30px;
+}
+.form-elements-description{
+    width: 300px;
+    margin-top: 5px;
+    height: 250px;
+}
+.errors{
+    color: red;
+    margin-top: 4px;
+}
+
+.submit-button{
+    position: relative;
+    top: 530px;
+    border-radius: 5px;
+    background-color: #FF5A5F;
+    border-color: #FF5A5F;
+    color: white;
+}

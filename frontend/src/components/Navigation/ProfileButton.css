@@ -1,0 +1,15 @@
+
+.profile-dropdown{
+    list-style: none;
+    position: absolute;
+    /* margin-top: 40px; */
+    top: 70px;
+    background-color: white;
+    
+}
+.profile-button {
+    border-radius: 5px;
+    background-color: #FF5A5F;
+    border-color: #FF5A5F;
+    color: white;
+}

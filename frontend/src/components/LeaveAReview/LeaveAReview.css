@@ -1,0 +1,39 @@
+
+.review-form-container{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80%;
+    width: 100%;
+}
+.review-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    height: 70%;
+    width: 300px;
+}
+.review-form-elements{
+    width: 400px;
+    margin-top: 5px;
+    height: 30px;
+    align-items: center;
+}
+.review-form-textarea {
+    width: 400px;
+}
+.review-form-input {
+    width: 400px;
+    text-align: center;
+}
+.review-submit-button {
+    position: relative;
+    top: 300px;
+    border-radius: 5px;
+    background-color: #FF5A5F;
+    border-color: #FF5A5F;
+    color: white;
+}

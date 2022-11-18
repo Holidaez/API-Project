@@ -1,0 +1,25 @@
+.login-form-container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 45%;
+    padding: 30px;
+}
+.login-input {
+    padding-top: 10px;
+}
+.login-button {
+    position: relative;
+    top: 7px;
+    border-radius: 5px;
+    background-color: #FF5A5F;
+    border-color: #FF5A5F;
+    color: white;
+}

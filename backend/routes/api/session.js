@@ -24,12 +24,19 @@ router.get(
     '/',
     restoreUser,
     (req, res) => {
+      console.log("in get route" + req.user)
       const { user } = req;
       if (user) {
-        return res.json({
-          user: user.toSafeObject()
-        });
-      } else return res.json({});
+       return res.json({user:{
+          id:user.id,
+          firstName:user.firstName,
+          lastName:user.lastName,
+          email:user.email,
+          username:user.username,
+        }});
+      } else return res.json({
+        user:null
+      });
     }
   );
   //TODO END SESSION RESTORATION
@@ -51,10 +58,13 @@ router.post(
     }
 
     await setTokenCookie(res, user);
-
-    return res.json({
-      user
-    });
+    return res.json({user:{
+      id:user.id,
+      firstName:user.firstName,
+      lastName:user.lastName,
+      email:user.email,
+      username:user.username,
+    }});
   }
 );
 //! END LOGIN ROUTE
@@ -74,5 +84,5 @@ router.post(
 
 
 
-
+//test
 module.exports = router;
