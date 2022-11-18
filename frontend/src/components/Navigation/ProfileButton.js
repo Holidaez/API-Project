@@ -53,6 +53,7 @@ function ProfileButton({ user, setLogin, setShowModal,setLoginDemo }) {
           <li>
             <button onClick={() => {
               setLogin(false)
+              setLoginDemo(false)
               setShowModal(true)
             }} className="profile-button">Sign Up</button>
           </li>
