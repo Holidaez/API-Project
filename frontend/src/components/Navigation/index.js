@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
 import LoginForm from '../LoginFormModal/LoginForm';
+import LoginFormDemo from '../LoginFormModal/LoginFormDemo';
 import SignupFormPage from '../SignupFormPage'
 import { Modal } from '../../context/Modal';
 import './Navigation.css';
@@ -13,7 +14,7 @@ function Navigation({ isLoaded }) {
   const user = useSelector(state => state.session.user)
   const [showModal, setShowModal] = useState(false)
   const [login, setLogin] = useState(true)
-
+  const [loginDemo, setLoginDemo] = useState(true)
   // let sessionLinks;
   // if (sessionUser) {
   //   sessionLinks = (<ProfileButton user={sessionUser} />);
@@ -48,13 +49,19 @@ function Navigation({ isLoaded }) {
           user={sessionUser}
           setLogin={setLogin}
           setShowModal={setShowModal}
+          setLoginDemo={setLoginDemo}
         />
       )}
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           {login ? (<LoginForm setShowModal={setShowModal} />
           ) : (
-            <SignupFormPage setShowModal={setShowModal} />)}
+            <SignupFormPage setShowModal={setShowModal} />) }
+        </Modal>
+      )}
+      {showModal && (
+        <Modal onClose={()=> setShowModal(false)}>
+          {loginDemo && (<LoginFormDemo setShowModal={setShowModal}/>)}
         </Modal>
       )}
 

@@ -137,6 +137,7 @@ export const deleteSpot = (spotId) => async (dispatch) => {
         const spot = await response.json()
 
         dispatch(deleteASpot(spotId))
+        console.log(spotId)
         return spot
     }
 }
@@ -188,14 +189,14 @@ const spotsReducer = (state = {}, action) => {
                 [action.spots.id]: action.spots
             }
         case DELETE_SPOT:
-            const deleteState = { ...state }
-
-            delete deleteState[action.spots.id]
-            return deleteState
+            let deleteState = [{...state}]
+            console.log(deleteState)
+            let returnState = deleteState.filter(currentState => currentState.id !== action.spots.id)
+            return returnState
         case DELETE_REVIEW:
-            const deleteReview = {...state}
-            delete deleteReview[action.review.id]
-            return deleteReview
+            const deleteReview = [{...state}]
+            let returnstate = deleteReview.filter(currentReview => currentReview.id !== action.review.id)
+            return returnstate
         default:
             return state
     }

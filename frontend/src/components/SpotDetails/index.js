@@ -15,12 +15,8 @@ const CurrentSpotDetails = () => {
 
   useEffect(() => {
     dispatch(findASpot(spotId))
-  }, [spotId])
-
-  useEffect(() => {
-    dispatch(findCurrentSpotReviews(spotId))
-  }, [spotId])
-
+    .then(dispatch(findCurrentSpotReviews(spotId)))
+  }, [])
 
 
   if (spots.Reviews) {
@@ -98,7 +94,7 @@ const CurrentSpotDetails = () => {
       )}
       <div className="review-button-container">
         <p className="review-button">
-          {spots.Owner && user && user.id !== spots.Owner.id && (
+          {spots.Owner && user && user.id !== spots.Owner.id && spots.Reviews && spots.Reviews.userId !== user.id && (
             <Link to={`/create/review/${spots.id}`} className="link">Leave Your Review</Link>
           )}
         </p>
