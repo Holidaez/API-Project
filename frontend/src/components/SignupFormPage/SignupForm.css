@@ -1,0 +1,25 @@
+.signup-form-container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 45%;
+    padding: 25px;
+}
+.signup-input {
+    padding-top: 10px;
+}
+
+.signup-submit{
+    position: relative;
+    top: 10px;
+    border-radius: 5px;
+    background-color: #FF5A5F;
+    border-color: #FF5A5F;
+    color: white;
+}

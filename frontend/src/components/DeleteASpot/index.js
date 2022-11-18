@@ -16,7 +16,7 @@ const DeleteASpot = () => {
     }
     return (
         <div>
-            <button onClick={() => handleClick(spot)}> Click to Confirm Deletion</button>
+            <button onClick={() => handleClick(spot)} className="delete-button"> Click to Confirm Deletion</button>
         </div>
     )
 }

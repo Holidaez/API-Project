@@ -32,66 +32,80 @@ function SignupFormPage({setShowModal}) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="signup-form-container">
+    <form onSubmit={handleSubmit} className="signup-form">
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
       <label>
-        Email
+
         <input
           type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          placeholder="Email"
+          className="signup-input"
         />
       </label>
       <label>
-        Username
+
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          placeholder="Username"
+          className="signup-input"
         />
       </label>
       <label>
-        Password
+
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          placeholder="Password"
+          className="signup-input"
         />
       </label>
       <label>
-        Confirm Password
+
         <input
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
+          placeholder="Confirm Password"
+          className="signup-input"
         />
       </label>
       <label>
-        Firstname
+
         <input
           type="text"
           value={firstName}
           onChange={(e) => setFirstname(e.target.value)}
           required
+          placeholder="First Name"
+          className="signup-input"
         />
       </label>
       <label>
-        Lastname
+
         <input
           type="text"
           value={lastName}
           onChange={(e) => setLastname(e.target.value)}
           required
+          placeholder="Last Name"
+          className="signup-input"
         />
       </label>
-      <button type="submit">Sign Up</button>
+      <button type="submit" className="signup-submit">Sign Up</button>
     </form>
+    </div>
   );
 }
 

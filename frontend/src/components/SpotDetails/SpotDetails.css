@@ -5,12 +5,12 @@
     align-items: center;
     justify-content: center;
     width: 80%;
-    height: 30%;
     padding-left: 20%;
 }
 
 .detail-image{
-    height: 25%;
+    min-height: 40%;
+    max-height: 40%;
     max-width: 40%;
 }
 
@@ -20,6 +20,7 @@
     text-align: left;
     justify-content: center;
     padding-left: 25%;
+    height: fit-content;
 }
 
 .review-list{
@@ -28,7 +29,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    gap: 10px 10px;
+    gap: 40px 10px;
     grid-template-areas:
     "review1 review2"
     "review3 review4"
@@ -45,15 +46,19 @@
 
 .review1{
     grid-area: review1;
+    font-size: 17px;
 }
 .review2{
     grid-area: review2;
+    font-size: 17px;
 }
 .review3{
     grid-area: review3;
+    font-size: 17px;
 }
 .review4{
     grid-area: review4;
+    font-size: 17px;
 }
 
 .link{
@@ -63,4 +68,33 @@
 
 .review-button{
     text-align: center;
+}
+
+.owner-options{
+    position: relative;
+    top: 80px;
+    text-align: center;
+}
+
+.city-state {
+    font-size: 25px;
+}
+
+.spot-rating {
+    margin-top: 20px;
+    font-size: 22px;
+}
+
+.address {
+    padding-top: 6px;
+    font-size: 23px;
+}
+
+.price {
+    padding-top: 6px;
+    font-size: 18px;
+}
+.description {
+
+    font-size: 18px;
 }

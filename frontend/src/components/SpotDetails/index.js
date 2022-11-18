@@ -24,13 +24,14 @@ const CurrentSpotDetails = () => {
 
 
   if (spots.Reviews) {
-    let reviewNumber = 0
+    let reviewNumber = 1
     spotReviews = spots.Reviews.map((review) => {
       return (
         <li key={review.id} className="user-reviews">
           <div className={`review${reviewNumber++}`}>
-            <p>{review.User.firstName} {review.User.lastName}:</p>
-            <p><i className="fa-solid fa-star"></i>{review.stars}</p>
+            <p>{review.User.firstName} {review.User.lastName}: Rating: <i className="fa-solid fa-star"></i>{review.stars}
+            </p>
+
             <p> {review.review}</p>
             <p>
               {user && user.id === review.User.id && (
@@ -62,23 +63,31 @@ const CurrentSpotDetails = () => {
       )}
       <div className="detail-block">
 
-        <h3>{`${spots.city}, ${spots.state}`}</h3>
-        <h3><i className="fa-solid fa-star"></i> {spots.avgStarRating}</h3>
-        <p>{spots.address}</p>
-        <p>${spots.price} night</p>
-        <p>{spots.description}</p>
-
+        <h3 className="city-state">{`${spots.city}, ${spots.state}`}</h3>
+        <p className="address">Address: {spots.address}</p>
+        <p className="price">${spots.price} per night</p>
+        <div>
+          <h3>About This Place:</h3>
+        <p className="description">{spots.description}</p>
+        </div>
+        {spots.avgStarRating !== "NaN" &&(
+          <h3 className="spot-rating">Rating:  <i className="fa-solid fa-star"></i> {spots.avgStarRating}</h3>
+        )}
+        {spots.avgStarRating === "NaN" && (
+          <p className="spot-rating">No Reviews</p>
+        )}
       </div>
       {spots.Reviews && (
         <ul className="review-list">
           {spotReviews}
         </ul>
       )}
-
+      <p className="owner-options">
       {spots.Owner && user && user.id === spots.Owner.id && (
         <Link to={`/update/${spots.id}`} className="link">Edit</Link>
       )}
-      <p>
+      </p>
+      <p className="owner-options">
         {spots.Owner && user && user.id === spots.Owner.id && (
           <Link to={`/delete/${spots.id}`} className="link">Delete Spot</Link>
         )}

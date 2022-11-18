@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { createReview } from '../../store/spotsReducer'
 import { useDispatch } from 'react-redux'
-
+import './LeaveAReview.css'
 
 
 
@@ -38,29 +38,31 @@ const LeaveAReview = () => {
     }
 
     return (
-        <div>
+        <div className='review-form-container'>
             <h1>How Was Your Stay?</h1>
             <ul className="errors">{errors.map(e => (
                 <li key={e}>{e}</li>))}
             </ul>
             <form onSubmit={handleSubmit} className='review-form'>
-                <div>
+                <div className='review-form-elements'>
                     <textarea
                         onChange={(e) => setReview(e.target.value)}
                         value={review}
                         placeholder='Your Review'
                         name='review'
                         rows='20'
+                        className='review-form-textarea'
                     ></textarea>
                     <input
-                        type='text'
+                        type='number'
                         onChange={(e) => setStars(e.target.value)}
                         value={stars}
                         placeholder='stars'
                         name='stars'
+                        className='review-form-input'
                     />
                 </div>
-                <button type='submit' disabled={errors.length > 0 }>Submit Review</button>
+                <button type='submit' className="review-submit-button" disabled={errors.length > 0 }>Submit Review</button>
             </form>
         </div>
     )

@@ -34,6 +34,7 @@ const SpotGetter = () => {
         ) : (
             <p className='no-reviews'>No Reviews</p>
         )
+        
         return (
             <li key={spotItem.id} className='spot-list-item'>
                 <img src={spotItem.previewImage} alt="image Machine Broke" className='image'></img>
