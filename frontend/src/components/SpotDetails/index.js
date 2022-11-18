@@ -35,7 +35,7 @@ const CurrentSpotDetails = () => {
             <p> {review.review}</p>
             <p>
               {user && user.id === review.User.id && (
-                <Link to={`/review/delete/${review.id}`} className="link">Delete Review</Link>
+                <Link to={`/review/delete/${review.id}`} className="delete-review-link">Delete Review</Link>
               )}
             </p>
           </div>

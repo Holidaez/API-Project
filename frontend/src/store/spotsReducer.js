@@ -189,7 +189,7 @@ const spotsReducer = (state = {}, action) => {
             }
         case DELETE_SPOT:
             const deleteState = { ...state }
-           
+
             delete deleteState[action.spots.id]
             return deleteState
         case DELETE_REVIEW:

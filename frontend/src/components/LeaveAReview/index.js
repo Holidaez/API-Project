@@ -33,7 +33,7 @@ const LeaveAReview = () => {
         }
         const returnReview = dispatch(createReview(spotId, newReview))
         if(returnReview){
-            history.push(`/`)
+            history.push(`/currentSpot/${spotId}`)
         }
     }
 
