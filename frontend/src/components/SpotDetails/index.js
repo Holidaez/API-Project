@@ -68,9 +68,9 @@ const CurrentSpotDetails = () => {
         <p className="price">${spots.price} per night</p>
         <div className="description-container">
           <h3>About This Place:</h3>
-        <p className="description">{spots.description}</p>
+          <p className="description">{spots.description}</p>
         </div>
-        {spots.avgStarRating !== "NaN" &&(
+        {spots.avgStarRating !== "NaN" && (
           <h3 className="spot-rating">Rating:  <i className="fa-solid fa-star"></i> {spots.avgStarRating}</h3>
         )}
         {spots.avgStarRating === "NaN" && (
@@ -83,21 +83,23 @@ const CurrentSpotDetails = () => {
         </ul>
       )}
       <p className="owner-options">
-      {spots.Owner && user && user.id === spots.Owner.id && (
-        <Link to={`/update/${spots.id}`} className="link">Edit</Link>
-      )}
-      </p>
-      <p className="owner-options">
         {spots.Owner && user && user.id === spots.Owner.id && (
-          <Link to={`/delete/${spots.id}`} className="link">Delete Spot</Link>
+          <Link to={`/update/${spots.id}`} className="link">Edit</Link>
         )}
       </p>
+      {spots.Owner && user && user.id === spots.Owner.id &&(
+        <p className="owner-options">
+          {spots.Owner && user && user.id === spots.Owner.id && (
+            <Link to={`/delete/${spots.id}`} className="link">Delete Spot</Link>
+            )}
+            </p>
+      )}
       <div className="review-button-container">
-      <p className="review-button">
-        {spots.Owner && user && user.id !== spots.Owner.id && (
-          <Link to={`/create/review/${spots.id}`} className="link">Leave Your Review</Link>
-        )}
-      </p>
+        <p className="review-button">
+          {spots.Owner && user && user.id !== spots.Owner.id && (
+            <Link to={`/create/review/${spots.id}`} className="link">Leave Your Review</Link>
+          )}
+        </p>
       </div>
     </div>
   )

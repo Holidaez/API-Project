@@ -23,7 +23,7 @@ const SpotGetter = () => {
 
         dispatch(getAllSpots())
 
-    }, [dispatch])
+    }, [])
 
     const spotItems = Object.values(spots).map((spotItem) => {
         // console.log(spotItem)
