@@ -28,7 +28,7 @@ const SpotGetter = () => {
     const spotItems = Object.values(spots).map((spotItem) => {
         // console.log(spotItem)
         const rating = spotItem.avgRating !== "NaN" ? (
-            <h4 className='spot-rating'><i className="fa-solid fa-star">
+            <h4 className='spot-rating-get-spots'><i className="fa-solid fa-star">
             </i>{spotItem.avgRating}</h4>
         ) : (
             <p className='no-reviews'>No Reviews</p>
