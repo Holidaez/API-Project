@@ -82,11 +82,13 @@ const CurrentSpotDetails = () => {
           {spotReviews}
         </ul>
       )}
+      {spots.Owner && user && user.id === spots.Owner.id &&(
       <p className="owner-options">
         {spots.Owner && user && user.id === spots.Owner.id && (
           <Link to={`/update/${spots.id}`} className="link">Edit</Link>
         )}
       </p>
+      )}
       {spots.Owner && user && user.id === spots.Owner.id &&(
         <p className="owner-options">
           {spots.Owner && user && user.id === spots.Owner.id && (
