@@ -12,7 +12,7 @@ const CurrentSpotDetails = () => {
   const user = useSelector(state => state.session.user)
   let spotReviews;
   let image;
-
+  let unique;
   useEffect(() => {
     dispatch(findASpot(spotId))
     .then(dispatch(findCurrentSpotReviews(spotId)))
@@ -47,7 +47,12 @@ const CurrentSpotDetails = () => {
       )
     })
   }
+  if(spots.Reviews) {
+    let test = spots.Reviews
+    unique = test.filter(review => review.userId === user.id)
+    console.log(unique === true)
 
+  }
   return (
     <div>
 
@@ -94,7 +99,7 @@ const CurrentSpotDetails = () => {
       )}
       <div className="review-button-container">
         <p className="review-button">
-          {spots.Owner && user && user.id !== spots.Owner.id && spots.Reviews && spots.Reviews.userId !== user.id && (
+          {spots.Owner && user && user.id !== spots.Owner.id && spots.Reviews && unique.length < 1 && (
             <Link to={`/create/review/${spots.id}`} className="link">Leave Your Review</Link>
           )}
         </p>
