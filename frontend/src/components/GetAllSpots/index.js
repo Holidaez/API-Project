@@ -34,7 +34,8 @@ const SpotGetter = () => {
         ) : (
             <p className='no-reviews'>No Reviews</p>
         )
-
+            console.log(spotItem)
+            console.log(spotItem.previewImage)
         return (
             <li key={spotItem.id} className='spot-list-item'>
                 <img src={spotItem.previewImage} alt="image not found" className='image'></img>
