@@ -99,7 +99,7 @@ const SpotInput = () => {
                     name='Name'
                 />
                 <input className="form-elements"
-                    type='text'
+                    type='url'
                     onChange={(e) => setPreviewImage(e.target.value)}
                     value={previewImage}
                     placeholder='PreviewImage'

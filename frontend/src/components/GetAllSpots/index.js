@@ -43,7 +43,7 @@ const SpotGetter = () => {
                 </div>
 
                 <p className='spot-price'>${spotItem.price} night</p>
-                <Link to={`/currentSpot/${spotItem.id}`} className="link">
+                <Link to={`/currentSpot/${spotItem.id}`} className="link-get-spots">
                     <span>More Details</span>
                 </Link>
             </li>

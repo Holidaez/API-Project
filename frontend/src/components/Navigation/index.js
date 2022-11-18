@@ -33,7 +33,7 @@ function Navigation({ isLoaded }) {
 
     <nav className='navBar'>
       {/* sends the user home */}
-      <NavLink exact to="/" className="link">
+      <NavLink exact to="/" className="link-navbar">
         <img src='https://cdn.usbrandcolors.com/images/logos/airbnb-logo.svg' alt='logo' className='web-logo'></img>KeeganBNB
       </NavLink>
 

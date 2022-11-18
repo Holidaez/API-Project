@@ -4,6 +4,8 @@
     position: absolute;
     /* margin-top: 40px; */
     top: 70px;
+    background-color: white;
+    
 }
 .profile-button {
     border-radius: 5px;
