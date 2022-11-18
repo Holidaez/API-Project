@@ -83,7 +83,9 @@
 }
 
 .city-state {
+    border-top: 1px solid gray;
     font-size: 25px;
+    padding-top: 10px;
 }
 
 .spot-rating {
@@ -91,7 +93,12 @@
     margin-top: 20px;
     font-size: 22px;
 }
-
+.spot-rating-no-review {
+    border-top: 1px solid gray;
+    margin-top: 20px;
+    font-size: 22px;
+    padding-bottom: 50px;
+}
 .address {
     border-top: 1px solid gray;
     padding-top: 15px;

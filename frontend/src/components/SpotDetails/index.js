@@ -74,7 +74,7 @@ const CurrentSpotDetails = () => {
           <h3 className="spot-rating">Rating:  <i className="fa-solid fa-star"></i> {spots.avgStarRating}</h3>
         )}
         {spots.avgStarRating === "NaN" && (
-          <p className="spot-rating">No Reviews</p>
+          <p className="spot-rating-no-review">No Reviews</p>
         )}
       </div>
       {spots.Reviews && (
