@@ -25,7 +25,6 @@ const SpotGetter = () => {
 
     }, [dispatch])
 
-    console.log(spots)
     const spotItems = Object.values(spots).map((spotItem) => {
         // console.log(spotItem)
         const rating = spotItem.avgRating !== "NaN" ? (
@@ -34,8 +33,7 @@ const SpotGetter = () => {
         ) : (
             <p className='no-reviews'>No Reviews</p>
         )
-            console.log(spotItem)
-            console.log(spotItem.previewImage)
+
         return (
             <li key={spotItem.id} className='spot-list-item'>
                 <img src={spotItem.previewImage} alt="image not found" className='image'></img>

@@ -127,7 +127,7 @@ export const findCurrentSpotReviews = (spotId) => async (dispatch) => {
 }
 //!
 export const deleteSpot = (spotId) => async (dispatch) => {
-    console.log(spotId)
+
     const response = await csrfFetch(`/api/spots/${spotId.id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
@@ -135,20 +135,20 @@ export const deleteSpot = (spotId) => async (dispatch) => {
     })
     if(response.ok){
         const spot = await response.json()
-        console.log(spot)
+
         dispatch(deleteASpot(spotId))
         return spot
     }
 }
 export const deleteReview = (reviewId) => async (dispatch) => {
-    console.log(reviewId)
+
     const response = await csrfFetch(`/api/reviews/${reviewId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
     })
     if(response.ok){
         const review = await response.json()
-        console.log(review)
+
         dispatch(deleteTheReview(reviewId))
         return review
     }
@@ -189,7 +189,7 @@ const spotsReducer = (state = {}, action) => {
             }
         case DELETE_SPOT:
             const deleteState = { ...state }
-            console.log(deleteState)
+           
             delete deleteState[action.spots.id]
             return deleteState
         case DELETE_REVIEW:
