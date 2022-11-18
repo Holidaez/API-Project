@@ -92,11 +92,13 @@ const CurrentSpotDetails = () => {
           <Link to={`/delete/${spots.id}`} className="link">Delete Spot</Link>
         )}
       </p>
+      <div className="review-button-container">
       <p className="review-button">
         {spots.Owner && user && user.id !== spots.Owner.id && (
           <Link to={`/create/review/${spots.id}`} className="link">Leave Your Review</Link>
         )}
       </p>
+      </div>
     </div>
   )
 
