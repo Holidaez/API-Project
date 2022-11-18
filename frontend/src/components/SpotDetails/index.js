@@ -50,8 +50,6 @@ const CurrentSpotDetails = () => {
   if(spots.Reviews && user) {
     let test = spots.Reviews
     unique = test.filter(review => review.userId === user.id)
-    console.log(unique === true)
-
   }
   return (
     <div>
