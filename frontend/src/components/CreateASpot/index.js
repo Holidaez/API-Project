@@ -106,7 +106,7 @@ const SpotInput = () => {
                     name='PreviewImage'
                 />
                 <input className="form-elements"
-                    type='text'
+                    type='number'
                     onChange={(e) => setPrice(e.target.value)}
                     value={price}
                     placeholder='Price'
