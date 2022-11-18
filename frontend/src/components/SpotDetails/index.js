@@ -29,7 +29,7 @@ const CurrentSpotDetails = () => {
       return (
         <li key={review.id} className="user-reviews">
           <div className={`review${reviewNumber++}`}>
-            <p>{review.User.firstName} {review.User.lastName}: Rating: <i className="fa-solid fa-star"></i>{review.stars}
+            <p className="user-name">{review.User.firstName} {review.User.lastName}: <i className="fa-solid fa-star"></i>{review.stars}
             </p>
 
             <p> {review.review}</p>
@@ -66,7 +66,7 @@ const CurrentSpotDetails = () => {
         <h3 className="city-state">{`${spots.city}, ${spots.state}`}</h3>
         <p className="address">Address: {spots.address}</p>
         <p className="price">${spots.price} per night</p>
-        <div>
+        <div className="description-container">
           <h3>About This Place:</h3>
         <p className="description">{spots.description}</p>
         </div>
