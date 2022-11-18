@@ -47,7 +47,7 @@ router.get('/', async (req, res) => {
         })
         for(let previewImage of previewImages){
             console.log(previewImage)
-            if (previewImage.preview === 1) {
+            if (previewImage.preview == 1) {
                 spot.dataValues.previewImage = previewImage.url
             }
 
