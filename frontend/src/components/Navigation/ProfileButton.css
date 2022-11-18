@@ -5,3 +5,9 @@
     /* margin-top: 40px; */
     top: 40px;
 }
+.profile-button {
+    border-radius: 5px;
+    background-color: #FF5A5F;
+    border-color: #FF5A5F;
+    color: white;
+}

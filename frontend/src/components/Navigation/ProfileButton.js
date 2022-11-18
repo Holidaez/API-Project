@@ -40,7 +40,7 @@ function ProfileButton({ user, setLogin, setShowModal }) {
           <li>{user.username}</li>
           <li>{user.email}</li>
           <li>
-            <button onClick={logout}>Log Out</button>
+            <button onClick={logout} className="profile-button">Log Out</button>
           </li>
         </ul>) :
         (<ul className="profile-dropdown">
@@ -48,13 +48,14 @@ function ProfileButton({ user, setLogin, setShowModal }) {
             <button onClick={() => {
               setLogin(true)
               setShowModal(true)
-            }}>Log In</button>
+
+            }} className="profile-button">Log In</button>
           </li>
           <li>
             <button onClick={() => {
               setLogin(false)
               setShowModal(true)
-            }}>Sign Up</button>
+            }} className="profile-button">Sign Up</button>
           </li>
         </ul>)
       )}
