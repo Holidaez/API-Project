@@ -55,6 +55,8 @@ const LeaveAReview = () => {
                     ></textarea>
                     <input
                         type='number'
+                        min={1}
+                        max={5}
                         onChange={(e) => setStars(e.target.value)}
                         value={stars}
                         placeholder='stars'

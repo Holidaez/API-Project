@@ -29,6 +29,7 @@ const SpotInput = () => {
         if (description.length === 0) errs.push("Description field is required")
         if (description.length > 300) errs.push("Description field must be 300 characters or less")
         if (isNaN(price)) errs.push("Price Can only Consisty of Numbers")
+        if(price < 0)errs.push("Price can not be a Negative number")
         if (previewImage.length === 0) errs.push("Please include an image")
         setErrors(errs)
     }, [name, city, state, address, country, description, price, previewImage])
@@ -107,6 +108,7 @@ const SpotInput = () => {
                 />
                 <input className="form-elements"
                     type='number'
+                    min={1}
                     onChange={(e) => setPrice(e.target.value)}
                     value={price}
                     placeholder='Price'
