@@ -23,16 +23,14 @@
     width: 300px;
     margin-top: 5px;
     height: 30px;
+    border-radius: 5px;
 }
 .form-elements-description{
     width: 300px;
     margin-top: 5px;
     height: 250px;
+    border-radius:5px;
 }
-/* .errors{
-    color: red;
-    margin-top: 4px;
-} */
 
 .submit-button{
     position: relative;
