@@ -11,7 +11,7 @@ import './LeaveAReview.css'
 const LeaveAReview = () => {
     const { spotId } = useParams()
     const [review, setReview] = useState('')
-    const [stars, setStars] = useState(0)
+    const [stars, setStars] = useState(1)
     const dispatch = useDispatch()
     const history = useHistory()
     const [errors, setErrors] = useState([])
