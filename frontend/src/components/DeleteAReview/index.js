@@ -6,13 +6,14 @@ import './DeleteAReview.css'
 import { useParams } from 'react-router-dom'
 import "../../index.css"
 const DeleteAReview = () => {
-    const {reviewId} = useParams()
+    const {spotId, reviewId} = useParams()
     const dispatch = useDispatch()
     const history = useHistory()
+    const spots = useSelector(state => state.spots)
     const handleClick = (reviewId) => {
         const deletion = dispatch(deleteReview(reviewId))
         if(deletion){
-            history.push('/')
+            history.push(`/currentSpot/${spotId}`)
         }
     }
   return (

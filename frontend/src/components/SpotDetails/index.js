@@ -8,18 +8,18 @@ import './SpotDetails.css'
 const CurrentSpotDetails = () => {
   const { spotId } = useParams()
   const dispatch = useDispatch()
-  const spots = useSelector(state => state.spots)
+  const spots = useSelector(state => state.spots[spotId])
   const user = useSelector(state => state.session.user)
   let spotReviews;
   let image;
   let unique;
   useEffect(() => {
     dispatch(findASpot(spotId))
-    .then(dispatch(findCurrentSpotReviews(spotId)))
+    // .then(dispatch(findCurrentSpotReviews(spotId)))
   }, [])
+  if(!spots) return null
 
-
-  if (spots.Reviews) {
+  if (spots && spots.Reviews) {
     let reviewNumber = 1
     spotReviews = spots.Reviews.map((review) => {
       return (
@@ -31,7 +31,7 @@ const CurrentSpotDetails = () => {
             <p> {review.review}</p>
             <p>
               {user && user.id === review.User.id && (
-                <Link to={`/review/delete/${review.id}`} className="delete-review-link">Delete Review</Link>
+                <Link to={`/review/delete/${spotId}/${review.id}`} className="delete-review-link">Delete Review</Link>
               )}
             </p>
           </div>
@@ -40,20 +40,20 @@ const CurrentSpotDetails = () => {
     })
 
   }
-  if (spots.SpotImages) {
+  if (spots && spots.SpotImages) {
     image = spots.SpotImages.map((img) => {
       return (
         <img src={img.url} alt="image Not Found" className="detail-image"></img>
       )
     })
   }
-  if(spots.Reviews && user) {
+  if(spots && spots.Reviews && user) {
     let test = spots.Reviews
     unique = test.filter(review => review.userId === user.id)
   }
   return (
-    <div>
-
+    <div className="spot-details-container">
+      <h1 className="spot-name">{spots.name}</h1>
       <div className="img-container">
         {image}
       </div>
