@@ -31,7 +31,7 @@ const LeaveAReview = () => {
             review,
             stars
         }
-        const returnReview = dispatch(createReview(spotId, newReview))
+        const returnReview = await dispatch(createReview(spotId, newReview))
         if(returnReview){
             history.push(`/currentSpot/${spotId}`)
         }

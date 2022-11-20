@@ -9,8 +9,8 @@ const DeleteASpot = () => {
     const {spotId} = useParams()
     const spot = useSelector(state => state.spots[spotId])
     const history = useHistory()
-    const handleClick = (spot) => {
-        const completed = dispatch(deleteSpot(spot))
+    const handleClick = async (spot) => {
+        const completed = await dispatch(deleteSpot(spot))
         if (completed) {
             history.push('/')
         }

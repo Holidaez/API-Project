@@ -10,8 +10,8 @@ const DeleteAReview = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const spots = useSelector(state => state.spots)
-    const handleClick = (reviewId) => {
-        const deletion = dispatch(deleteReview(reviewId))
+    const handleClick = async (reviewId) => {
+        const deletion = await dispatch(deleteReview(reviewId))
         if(deletion){
             history.push(`/currentSpot/${spotId}`)
         }
