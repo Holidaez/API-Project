@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import './LoginForm.css'
+import '../../index.css'
 function LoginForm({setShowModal}) {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");

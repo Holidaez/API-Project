@@ -5,7 +5,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { createReview } from '../../store/spotsReducer'
 import { useDispatch } from 'react-redux'
 import './LeaveAReview.css'
-
+import '../../index.css'
 
 
 const LeaveAReview = () => {

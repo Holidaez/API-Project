@@ -4,7 +4,7 @@ import { findASpot, findCurrentSpotReviews, updateASpot } from "../../store/spot
 import { Redirect, useParams, useHistory } from "react-router-dom";
 import { Link } from 'react-router-dom'
 import './SpotDetails.css'
-
+import '../../index.css'
 const CurrentSpotDetails = () => {
   const { spotId } = useParams()
   const dispatch = useDispatch()
@@ -17,7 +17,7 @@ const CurrentSpotDetails = () => {
     dispatch(findASpot(spotId))
     // .then(dispatch(findCurrentSpotReviews(spotId)))
   }, [])
-  if(!spots) return null
+  if (!spots) return null
 
   if (spots && spots.Reviews) {
     let reviewNumber = 1
@@ -25,10 +25,12 @@ const CurrentSpotDetails = () => {
       return (
         <li key={review.id} className="user-reviews">
           <div className={`review${reviewNumber++}`}>
-            <p className="user-name">{review.User.firstName} {review.User.lastName}: <i className="fa-solid fa-star"></i>{review.stars}
-            </p>
+            <div className="review-name-stars">
+              <p className="user-name">{review.User.firstName} {review.User.lastName}: </p>
+              <p className="star-paragraph"><i className="fa-solid fa-star star-icon"></i>{review.stars}</p>
+            </div>
 
-            <p> {review.review}</p>
+            <p className="actual-review"> {review.review}</p>
             <p>
               {user && user.id === review.User.id && (
                 <Link to={`/review/delete/${spotId}/${review.id}`} className="delete-review-link">Delete Review</Link>
@@ -47,13 +49,34 @@ const CurrentSpotDetails = () => {
       )
     })
   }
-  if(spots && spots.Reviews && user) {
+  if (spots && spots.Reviews && user) {
     let test = spots.Reviews
     unique = test.filter(review => review.userId === user.id)
   }
   return (
     <div className="spot-details-container">
-      <h1 className="spot-name">{spots.name}</h1>
+      <div className="header-div">
+
+        <h1 className="spot-name">{spots.name}</h1>
+        <div className="button-div">
+          {spots.Owner && user && user.id === spots.Owner.id && (
+            <p className="owner-options">
+              {spots.Owner && user && user.id === spots.Owner.id && (
+                <Link to={`/delete/${spots.id}`} className="link">Delete Spot</Link>
+              )}
+            </p>
+          )}
+          {spots.Owner && user && user.id === spots.Owner.id && (
+            <p className="owner-options">
+              {spots.Owner && user && user.id === spots.Owner.id && (
+                <Link to={`/update/${spots.id}`} className="link">Edit</Link>
+              )}
+            </p>
+          )}
+        </div>
+
+      </div>
+
       <div className="img-container">
         {image}
       </div>
@@ -65,10 +88,10 @@ const CurrentSpotDetails = () => {
         <h3 className="city-state">{`${spots.city}, ${spots.state}`}</h3>
         <p className="address">Address: {spots.address}</p>
         <p className="price">${spots.price} per night</p>
-        <div className="description-container">
-          <h3>About This Place:</h3>
-          <p className="description">{spots.description}</p>
-        </div>
+
+        <h3 className="description-container-spot-details">About This Place:</h3>
+        <p className="description">{spots.description}</p>
+
         {spots.avgStarRating !== "NaN" && (
           <h3 className="spot-rating">Rating:  <i className="fa-solid fa-star"></i> {spots.avgStarRating}</h3>
         )}
@@ -81,7 +104,7 @@ const CurrentSpotDetails = () => {
           {spotReviews}
         </ul>
       )}
-      {spots.Owner && user && user.id === spots.Owner.id &&(
+      {/* {spots.Owner && user && user.id === spots.Owner.id &&(
       <p className="owner-options">
         {spots.Owner && user && user.id === spots.Owner.id && (
           <Link to={`/update/${spots.id}`} className="link">Edit</Link>
@@ -94,7 +117,7 @@ const CurrentSpotDetails = () => {
             <Link to={`/delete/${spots.id}`} className="link">Delete Spot</Link>
             )}
             </p>
-      )}
+      )} */}
       <div className="review-button-container">
         <p className="review-button">
           {spots.Owner && user && user.id !== spots.Owner.id && spots.Reviews && unique.length < 1 && (

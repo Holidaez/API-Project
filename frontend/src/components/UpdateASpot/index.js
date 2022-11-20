@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { findASpot, updateASpot } from "../../store/spotsReducer"
 import { Redirect, useParams, useHistory } from "react-router-dom";
 import './UpdateASpot.css'
-
+import '../../index.css'
 
 const SpotUpdater = () => {
     // const {spotId} = useParams()

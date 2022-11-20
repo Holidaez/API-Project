@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import './ProfileButton.css'
+import '../../index.css'
 function ProfileButton({ user, setLogin, setShowModal,setLoginDemo }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
