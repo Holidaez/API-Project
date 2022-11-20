@@ -39,10 +39,10 @@ export const currentSpot = (spot, reviewObj) => {
     }
 }
 
-export const deleteASpot = (spots) => {
+export const deleteASpot = (spot) => {
     return {
         type: DELETE_SPOT,
-        spots
+        spot
     }
 }
 export const createAReview = (review) => {
@@ -67,8 +67,10 @@ export const deleteTheReview = (review) => {
 
 export const getAllSpots = () => async (dispatch) => {
     const response = await csrfFetch('/api/spots')
-    const spots = await response.json();
-    dispatch(getSpots(spots.Spots))
+    if(response.ok){
+        const spots = await response.json();
+        dispatch(getSpots(spots.Spots))
+    }
 }
 export const createASpot = (payload) => async (dispatch) => {
     const response = await csrfFetch('/api/spots', {
@@ -195,14 +197,18 @@ const spotsReducer = (state = {}, action) => {
             }
 
         case DELETE_SPOT:
-            let deleteState = [{ ...state }]
+            const deleteState = { ...state }
+            delete deleteState[action.spot.id]
             console.log(deleteState)
-            let returnState = deleteState.filter(currentState => currentState.id !== action.spots.id)
-            return returnState
+            return deleteState
+            // let returnState = deleteState.filter(currentState => currentState.id !== action.spots.id)
+            // console.log(returnState)
+            // return returnState
 
         case DELETE_REVIEW:
             const deleteReview = [{ ...state }]
             let returnstate = deleteReview.filter(currentReview => currentReview.id !== action.review.id)
+            console.log(returnstate)
             return returnstate
 
         default:

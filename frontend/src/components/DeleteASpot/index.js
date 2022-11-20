@@ -10,8 +10,8 @@ const DeleteASpot = () => {
     const spot = useSelector(state => state.spots[spotId])
     const history = useHistory()
     const handleClick = (spot) => {
-        const yo = dispatch(deleteSpot(spot))
-        if (yo) {
+        const completed = dispatch(deleteSpot(spot))
+        if (completed) {
             history.push('/')
         }
 
