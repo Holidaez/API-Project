@@ -28,13 +28,14 @@ function LoginForm({setShowModal}) {
     <div className="login-form-container">
 
     <form onSubmit={handleSubmit} className="login-form">
+      
+      <h1 className="login-header">Log In</h1>
       <ul className="errors">
         {errors?.map((error, idx) => (
           <li key={idx}>{error}</li>
         ))}
       </ul>
       <label>
-
         <input
           type="text"
           value={credential}

@@ -3,23 +3,32 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    justify-content: space-between;
+    padding-bottom: 5px;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 45%;
-    padding: 30px;
+    padding: 70px;
 }
 .login-input {
     padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    margin: 5px;
 }
 .login-button {
     position: relative;
-    top: 7px;
+    top: 10px;
     border-radius: 5px;
     background-color: #FF5A5F;
     border-color: #FF5A5F;
     color: white;
+    padding: 4px;
+}
+.login-header{
+    text-align: center;
+    padding-bottom: 10px;
 }

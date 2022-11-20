@@ -8,11 +8,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 45%;
-    padding: 25px;
+    padding: 100px;
 }
 .signup-input {
-    padding-top: 10px;
+    padding: 10px;
+    margin: 7px;
+    border-radius: 5px;
+    width: 80%;
 }
 
 .signup-submit{
@@ -22,4 +24,8 @@
     background-color: #FF5A5F;
     border-color: #FF5A5F;
     color: white;
+}
+.sign-up-header{
+    padding-bottom: 10px;
+    text-align: center;
 }
