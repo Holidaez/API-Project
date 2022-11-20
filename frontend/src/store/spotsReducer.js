@@ -9,6 +9,7 @@ const DELETE_SPOT = 'spot/delete'
 const CURRENT_SPOT_REVIEWS = 'spot/reviews'
 const CREATE_REVIEW = 'spot/create/review'
 const DELETE_REVIEW = 'spot/delete/review'
+
 export const getSpots = (spots) => {
     return {
         type: GET_SPOTS,

@@ -4,3 +4,8 @@
     margin: 0;
     padding: 0;
 }
+
+.errors{
+    color: red;
+    margin-top: 4px;
+}
