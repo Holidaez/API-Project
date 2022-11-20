@@ -142,7 +142,8 @@ export const deleteSpot = (spotId) => async (dispatch) => {
     if (response.ok) {
         const spot = await response.json()
 
-        dispatch(deleteASpot(spotId))
+        await dispatch(deleteASpot(spotId))
+        await dispatch(getAllSpots())
         return spot
     }
 }
