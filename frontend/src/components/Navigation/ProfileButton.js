@@ -59,8 +59,7 @@ function ProfileButton({ user, setLogin, setShowModal,setLoginDemo }) {
           </li>
           <li>
             <button onClick={() => {
-              setLoginDemo(true)
-              setShowModal(true)
+              dispatch(sessionActions.login({credential:"Demo-lition", password:"password"}))
             }} className="profile-button">Demo Login</button>
           </li>
         </ul>)

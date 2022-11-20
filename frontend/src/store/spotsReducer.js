@@ -9,6 +9,7 @@ const DELETE_SPOT = 'spot/delete'
 const CURRENT_SPOT_REVIEWS = 'spot/reviews'
 const CREATE_REVIEW = 'spot/create/review'
 const DELETE_REVIEW = 'spot/delete/review'
+
 export const getSpots = (spots) => {
     return {
         type: GET_SPOTS,
@@ -30,18 +31,14 @@ export const updateSpot = (spots) => {
     }
 }
 
-export const currentSpot = (spots) => {
+export const currentSpot = (spot, reviewObj) => {
     return {
         type: CURRENT_SPOT,
-        spots
+        spot,
+        reviewObj
     }
 }
-export const currentSpotReviews = (spot) => {
-    return {
-        type: CURRENT_SPOT_REVIEWS,
-        spot
-    }
-}
+
 export const deleteASpot = (spots) => {
     return {
         type: DELETE_SPOT,
@@ -50,13 +47,13 @@ export const deleteASpot = (spots) => {
 }
 export const createAReview = (review) => {
     return {
-        type:CREATE_REVIEW,
+        type: CREATE_REVIEW,
         review
     }
 }
 export const deleteTheReview = (review) => {
     return {
-        type:DELETE_REVIEW,
+        type: DELETE_REVIEW,
         review
     }
 }
@@ -116,16 +113,22 @@ export const updateASpot = (payload) => async (dispatch) => {
 
 export const findASpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`)
-    const spot = await response.json()
-    dispatch(currentSpot(spot))
+    if (response.ok) {
+        const spot = await response.json()
+        if (spot.numReviews > 0) {
+            const reviewResponse = await csrfFetch(`/api/spots/${spotId}/reviews`)
+            if (reviewResponse.ok) {
+                const reviewObj = await reviewResponse.json()
+
+                dispatch(currentSpot(spot, reviewObj))
+            }
+        }else {
+            dispatch(currentSpot(spot))
+        }
+    }
+
 }
-//!
-export const findCurrentSpotReviews = (spotId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
-    const spotReview = await response.json()
-    dispatch(currentSpotReviews(spotReview))
-}
-//!
+
 export const deleteSpot = (spotId) => async (dispatch) => {
 
     const response = await csrfFetch(`/api/spots/${spotId.id}`, {
@@ -133,11 +136,11 @@ export const deleteSpot = (spotId) => async (dispatch) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(spotId)
     })
-    if(response.ok){
+
+    if (response.ok) {
         const spot = await response.json()
 
         dispatch(deleteASpot(spotId))
-        console.log(spotId)
         return spot
     }
 }
@@ -147,7 +150,8 @@ export const deleteReview = (reviewId) => async (dispatch) => {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
     })
-    if(response.ok){
+
+    if (response.ok) {
         const review = await response.json()
 
         dispatch(deleteTheReview(reviewId))
@@ -155,12 +159,13 @@ export const deleteReview = (reviewId) => async (dispatch) => {
     }
 }
 export const createReview = (spotId, payload) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spotId}/reviews`,{
-        method:'POST',
-        headers:{'Content-Type': 'application/json'},
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     })
-    if(response.ok){
+
+    if (response.ok) {
         const review = await response.json()
         dispatch(createAReview(review))
     }
@@ -176,27 +181,30 @@ const spotsReducer = (state = {}, action) => {
             return { ...state, [action.spot.id]: action.spot }
 
         case CURRENT_SPOT:
-            const spotState = action.spots
+            const spotState = { [action.spot.id]: action.spot }
+            spotState[action.spot.id].Reviews = action?.reviewObj?.Reviews
             return spotState
 
-        case CURRENT_SPOT_REVIEWS:
-            return {...state, Reviews: action.spot.Reviews}
         case CREATE_REVIEW:
-            return {...state}
+            return { ...state }
+
         case UPDATE_SPOT:
             return {
                 ...state,
                 [action.spots.id]: action.spots
             }
+
         case DELETE_SPOT:
-            let deleteState = [{...state}]
+            let deleteState = [{ ...state }]
             console.log(deleteState)
             let returnState = deleteState.filter(currentState => currentState.id !== action.spots.id)
             return returnState
+
         case DELETE_REVIEW:
-            const deleteReview = [{...state}]
+            const deleteReview = [{ ...state }]
             let returnstate = deleteReview.filter(currentReview => currentReview.id !== action.review.id)
             return returnstate
+
         default:
             return state
     }

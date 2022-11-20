@@ -11,7 +11,7 @@ import './LeaveAReview.css'
 const LeaveAReview = () => {
     const { spotId } = useParams()
     const [review, setReview] = useState('')
-    const [stars, setStars] = useState(0)
+    const [stars, setStars] = useState(1)
     const dispatch = useDispatch()
     const history = useHistory()
     const [errors, setErrors] = useState([])
@@ -33,7 +33,7 @@ const LeaveAReview = () => {
         }
         const returnReview = dispatch(createReview(spotId, newReview))
         if(returnReview){
-            history.push(`/`)
+            history.push(`/currentSpot/${spotId}`)
         }
     }
 
@@ -55,6 +55,8 @@ const LeaveAReview = () => {
                     ></textarea>
                     <input
                         type='number'
+                        min={1}
+                        max={5}
                         onChange={(e) => setStars(e.target.value)}
                         value={stars}
                         placeholder='stars'

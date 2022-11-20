@@ -107,6 +107,7 @@ const SpotUpdater = () => {
                 />
                 <input className="form-elements"
                     type='number'
+                    min={1}
                     onChange={(e) => setPrice(e.target.value)}
                     value={price}
                     placeholder='Price'
