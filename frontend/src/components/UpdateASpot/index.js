@@ -6,9 +6,9 @@ import './UpdateASpot.css'
 import '../../index.css'
 
 const SpotUpdater = () => {
-    // const {spotId} = useParams()
+    const {spotId} = useParams()
     const dispatch = useDispatch()
-     const spots = useSelector(state => state.spots)
+     const spots = useSelector(state => state.spots[spotId])
 
     // useEffect(() => {
     //     dispatch(findASpot(spotId))
@@ -24,6 +24,7 @@ const SpotUpdater = () => {
     const [description, setDescription] = useState(spots.description)
     const [price, setPrice] = useState(spots.price)
     const [errors, setErrors] = useState([])
+
 
     useEffect(() => {
         let errs = []
@@ -61,6 +62,7 @@ const SpotUpdater = () => {
             history.push(`/currentSpot/${spots.id}`)
         }
     }
+
     return (
         <div className="spot-form-container">
             <h1>Update Your Home</h1>
@@ -121,7 +123,7 @@ const SpotUpdater = () => {
                     rows='20'
                 ></textarea>
                 </div>
-                <button type='submit' className="submit-button-update" disabled={errors.length > 0}>Submit Home</button>
+                <button type='submit' className="submit-button-update" disabled={errors.length > 0}>Update Home</button>
             </form>
         </div>
     )

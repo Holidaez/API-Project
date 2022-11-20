@@ -15,7 +15,7 @@ const SpotInput = () => {
     const [lng, setLng] = useState(44)
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [price, setPrice] = useState(1)
+    const [price, setPrice] = useState('')
     const [previewImage, setPreviewImage] = useState('')
     const [errors, setErrors] = useState([])
     useEffect(() => {

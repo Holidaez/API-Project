@@ -28,10 +28,6 @@
     margin-top: 5px;
     height: 250px;
 }
-.errors{
-    color: red;
-    margin-top: 4px;
-}
 
 .submit-button-update{
     position: relative;
@@ -40,4 +36,8 @@
     background-color: #FF5A5F;
     border-color: #FF5A5F;
     color: white;
+    padding: 8px;
+    margin: 8px;
+    font-size: 15px;
+    font-weight: bold;
 }
