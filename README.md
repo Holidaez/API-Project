@@ -57,3 +57,15 @@ Whats to Come?
 6. Find your spots right on your profile
 7. Find your reviews right on your profile
 8. Find the reviews people left on your spots on your profile
+
+
+
+Getting Started? 
+download the project files, create your .env, migrate the files and run the seeders. 
+Run npm start in the backend then the frontend
+Enjoy!
+
+
+Contact Information 
+Email: Ableykeegan@gmail.com
+Slack: Keegan Abley 
