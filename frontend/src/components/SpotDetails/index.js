@@ -49,10 +49,12 @@ const CurrentSpotDetails = () => {
       )
     })
   }
+
   if (spots && spots.Reviews && user) {
     let test = spots.Reviews
     unique = test.filter(review => review.userId === user.id)
   }
+
   return (
     <div className="spot-details-container">
       <div className="header-div">
@@ -95,6 +97,7 @@ const CurrentSpotDetails = () => {
         {spots.avgStarRating !== "NaN" && (
           <h3 className="spot-rating">Rating:  <i className="fa-solid fa-star"></i> {spots.avgStarRating}</h3>
         )}
+
         {spots.avgStarRating === "NaN" && (
           <p className="spot-rating-no-review">No Reviews</p>
         )}
@@ -120,7 +123,7 @@ const CurrentSpotDetails = () => {
       )} */}
       <div className="review-button-container">
         <p className="review-button">
-          {spots.Owner && user && user.id !== spots.Owner.id && spots.Reviews && unique.length < 1 && (
+          {(!spots.Reviews || (spots.Owner && user && user.id !== spots.Owner.id && spots.Reviews && unique.length < 1 ) ) && (
             <Link to={`/create/review/${spots.id}`} className="link">Leave Your Review</Link>
           )}
         </p>

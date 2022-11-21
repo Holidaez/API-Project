@@ -25,13 +25,13 @@ const LeaveAReview = () => {
         setErrors(errs)
     },[stars,review])
 
-    const handleSubmit = async (e) => {
+    const handleSubmit =  (e) => {
         e.preventDefault()
         const newReview = {
             review,
             stars
         }
-        const returnReview = await dispatch(createReview(spotId, newReview))
+        const returnReview = dispatch(createReview(spotId, newReview))
         if(returnReview){
             history.push(`/currentSpot/${spotId}`)
         }
