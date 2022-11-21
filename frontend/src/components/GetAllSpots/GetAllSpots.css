@@ -12,7 +12,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 90%;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-top: 10px;
 }
 .spot-list-item {
@@ -20,6 +20,7 @@
     width: 15%;
     margin-top: 25px;
     text-align: left;
+    margin-left: 4%;
 }
 .city-state-rating-div{
     display: flex;
@@ -40,8 +41,8 @@
     border-radius: 10px;
 }
 .spot-price{
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 6px;
+    margin-bottom: 5px;
 }
 .link-get-spots{
     text-decoration: none;

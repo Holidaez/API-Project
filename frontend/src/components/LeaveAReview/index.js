@@ -5,13 +5,13 @@ import { useHistory, useParams } from 'react-router-dom'
 import { createReview } from '../../store/spotsReducer'
 import { useDispatch } from 'react-redux'
 import './LeaveAReview.css'
-
+import '../../index.css'
 
 
 const LeaveAReview = () => {
     const { spotId } = useParams()
     const [review, setReview] = useState('')
-    const [stars, setStars] = useState(0)
+    const [stars, setStars] = useState(1)
     const dispatch = useDispatch()
     const history = useHistory()
     const [errors, setErrors] = useState([])
@@ -25,7 +25,7 @@ const LeaveAReview = () => {
         setErrors(errs)
     },[stars,review])
 
-    const handleSubmit = async (e) => {
+    const handleSubmit =  (e) => {
         e.preventDefault()
         const newReview = {
             review,
@@ -33,7 +33,7 @@ const LeaveAReview = () => {
         }
         const returnReview = dispatch(createReview(spotId, newReview))
         if(returnReview){
-            history.push(`/`)
+            history.push(`/currentSpot/${spotId}`)
         }
     }
 
@@ -55,6 +55,8 @@ const LeaveAReview = () => {
                     ></textarea>
                     <input
                         type='number'
+                        min={1}
+                        max={5}
                         onChange={(e) => setStars(e.target.value)}
                         value={stars}
                         placeholder='stars'

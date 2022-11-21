@@ -20,9 +20,7 @@ const SpotGetter = () => {
     //Object.values(spots) = 1:{},2:{},3:{},4:{}
 
     useEffect(() => {
-
         dispatch(getAllSpots())
-
     }, [])
 
     const spotItems = Object.values(spots).map((spotItem) => {

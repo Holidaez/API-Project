@@ -44,7 +44,7 @@ function App() {
           <Route path='/create/review/:spotId'>
             <LeaveAReview />
           </Route>
-          <Route path='/review/delete/:reviewId'>
+          <Route path='/review/delete/:spotId/:reviewId'>
             <DeleteAReview/>
           </Route>
         </Switch>

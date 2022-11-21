@@ -1,9 +1,8 @@
-.delete-button {
-    position: relative;
-    left: 47%;
-    top: 300px;
-    border-radius: 5px;
-    background-color: #FF5A5F;
-    border-color: #FF5A5F;
-    color: white;
+.delete-button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 90vh;
 }

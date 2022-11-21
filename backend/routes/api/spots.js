@@ -320,9 +320,11 @@ router.delete('/:spotId', async (req, res) => {
         let spots = await Spot.findByPk(spotId)
         if (spots !== null) {
             if (spots.ownerId === user.id) {
-                await spots.destroy()
+                await spots.destroy({force:true})
+                const doesItExist = await Spot.findByPk(spotId)
                 res.json({
                     message: "Successfully deleted",
+                    spot: doesItExist,
                     statusCode: 200
                 })
             }

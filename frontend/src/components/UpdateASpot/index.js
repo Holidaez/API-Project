@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { findASpot, updateASpot } from "../../store/spotsReducer"
 import { Redirect, useParams, useHistory } from "react-router-dom";
 import './UpdateASpot.css'
-
+import '../../index.css'
 
 const SpotUpdater = () => {
-    // const {spotId} = useParams()
+    const {spotId} = useParams()
     const dispatch = useDispatch()
-     const spots = useSelector(state => state.spots)
+     const spots = useSelector(state => state.spots[spotId])
 
     // useEffect(() => {
     //     dispatch(findASpot(spotId))
@@ -24,6 +24,7 @@ const SpotUpdater = () => {
     const [description, setDescription] = useState(spots.description)
     const [price, setPrice] = useState(spots.price)
     const [errors, setErrors] = useState([])
+
 
     useEffect(() => {
         let errs = []
@@ -61,6 +62,7 @@ const SpotUpdater = () => {
             history.push(`/currentSpot/${spots.id}`)
         }
     }
+
     return (
         <div className="spot-form-container">
             <h1>Update Your Home</h1>
@@ -107,6 +109,7 @@ const SpotUpdater = () => {
                 />
                 <input className="form-elements"
                     type='number'
+                    min={1}
                     onChange={(e) => setPrice(e.target.value)}
                     value={price}
                     placeholder='Price'
@@ -120,7 +123,7 @@ const SpotUpdater = () => {
                     rows='20'
                 ></textarea>
                 </div>
-                <button type='submit' className="submit-button-update" disabled={errors.length > 0}>Submit Home</button>
+                <button type='submit' className="submit-button-update" disabled={errors.length > 0}>Update Home</button>
             </form>
         </div>
     )

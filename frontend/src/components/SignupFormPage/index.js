@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignupForm.css';
-
+import '../../index.css'
 function SignupFormPage({setShowModal}) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -20,12 +20,17 @@ function SignupFormPage({setShowModal}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      setErrors([]);
+      // setErrors([]);
       return dispatch(sessionActions.signup({ email, username, password, firstName,lastName }))
-        .then(setShowModal(false))
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
+        .then(()=>{
+          setShowModal(false)
+          setErrors([])
+        })
+        .catch(async (response) => {
+          // console.log(response)
+          const err = await response.json()
+          console.log(err)
+          setErrors(err.errors)
         });
     }
     return setErrors(['Confirm Password field must be the same as the Password field']);
@@ -34,8 +39,9 @@ function SignupFormPage({setShowModal}) {
   return (
     <div className="signup-form-container">
     <form onSubmit={handleSubmit} className="signup-form">
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+      <h1 className="sign-up-header">Sign Up</h1>
+      <ul className="errors">
+        {errors?.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
       <label>
 

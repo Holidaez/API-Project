@@ -3,7 +3,7 @@ import { csrfFetch } from './csrf';
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
-
+const SET_ERROR = 'session/setError'
 const setUser = (user) => {
     return {
         type: SET_USER,
@@ -16,19 +16,34 @@ const removeUser = () => {
         type: REMOVE_USER,
     };
 };
-
+// const setError = (err) => {
+//     return {
+//         type: SET_ERROR,
+//         payload:err
+//     }
+// }
 export const login = (user) => async (dispatch) => {
     const { credential, password } = user;
-    const response = await csrfFetch('/api/session', {
-        method: 'POST',
-        body: JSON.stringify({
-            credential,
-            password,
-        }),
-    });
-    const data = await response.json();
-    dispatch(setUser(data.user));
-    return response;
+    // try{
+        const response = await csrfFetch('/api/session', {
+            method: 'POST',
+            body: JSON.stringify({
+                credential,
+                password,
+            }),
+        });
+
+        const data = await response.json();
+        dispatch(setUser(data.user));
+        return response;
+
+    // }catch (error) {
+    //     if (error.status === 401) {
+    //         const err = await error.json()
+    //         dispatch(setError(err))
+    //     }
+    // }
+
 };
 //! Thunks Restore user
 export const restoreUser = () => async dispatch => {
@@ -66,18 +81,24 @@ export const logout = () => async (dispatch) => {
   };
 //!
 const initialState = { user: null };
-
+// newState {{invalid:"invalid credientials"} user:null}
 const sessionReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case SET_USER:
             newState = Object.assign({}, state);
+            newState.error = null
             newState.user = action.payload;
             return newState;
         case REMOVE_USER:
             newState = Object.assign({}, state);
             newState.user = null;
+            newState.error = null
             return newState;
+        // case SET_ERROR:
+        //     newState = Object.assign({}, state);
+        //     newState.error = action.payload
+        //     return newState
         default:
             return state;
     }

@@ -40,7 +40,7 @@ function Navigation({ isLoaded }) {
 
         {/* {//Allows User to create a spot while logged in}} */}
         {user !== null && (
-          <NavLink exact to="/spot/new" className="link">Create Spot</NavLink>
+          <NavLink exact to="/spot/new" className="link-new-spot">Create Spot</NavLink>
 
         )}
         {/* allows signin/signup modals to be used */}
